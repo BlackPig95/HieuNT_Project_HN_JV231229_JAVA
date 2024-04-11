@@ -9,6 +9,7 @@ import ra.business.entity.enumclasses.SEAT_STATUS;
 import ra.business.entity.movie.Movie;
 import ra.business.entity.movie.Seat;
 import ra.business.entity.movie.ShowTime;
+import ra.business.entity.purchase.Snack;
 import ra.business.entity.purchase.Ticket;
 import ra.business.entity.user.User;
 
@@ -21,6 +22,7 @@ import java.util.Random;
 import static ra.business.implementation.MovieManagement.movieList;
 import static ra.business.implementation.ShowTimeManagement.showTimeList;
 import static ra.business.implementation.RoomManagement.roomList;
+import static ra.business.implementation.SnackManagement.snackList;
 
 public class PurchaseManagement
 {
@@ -33,19 +35,28 @@ public class PurchaseManagement
         System.out.println("Danh sách phim hiện có:");
         movieList.stream().filter(m -> !m.getShowTimeId().isEmpty()).forEach(m -> m.displayData(showTimeList));
         purchaseTicket(currentuser);
-        System.out.println("Bạn có muốn mua đồ ăn và đồ uống kèm theo không?");
-        System.out.println("1. Có");
-        System.out.println("2. Không");
-        byte choice = InputMethods.nextByte();
-        switch (choice)
+        displaySnackChoiceMenu();
+    }
+
+    private void displaySnackChoiceMenu()
+    {
+        while (true)
         {
-            case 1:
-                break;
-            case 2:
-                break;
-            default:
-                System.out.println(CONSOLECOLORS.RED + CONSTANT.CHOICE_NOT_AVAI + CONSOLECOLORS.RESET);
-                break;
+            System.out.println("Bạn có muốn mua đồ ăn và đồ uống kèm theo không?");
+            System.out.println("1. Có");
+            System.out.println("2. Không");
+            byte choice = InputMethods.nextByte();
+            switch (choice)
+            {
+                case 1:
+                    chooseSnack();
+                    return;
+                case 2:
+                    return;
+                default:
+                    System.out.println(CONSOLECOLORS.RED + CONSTANT.CHOICE_NOT_AVAI + CONSOLECOLORS.RESET);
+                    break;
+            }
         }
     }
 
@@ -253,5 +264,46 @@ public class PurchaseManagement
             }
         }
         return seatsChosen;
+    }
+
+    private void chooseSnack()
+    {
+        while (true)
+        {
+            System.out.println("Danh sách các đồ ăn/ đồ uống tại rạp:");
+            System.out.println(CONSOLECOLORS.YELLOW + "-------------------------------------------------------" + CONSOLECOLORS.RESET);
+            for (int i = 0; i < snackList.size(); i++)
+            {
+                System.out.println((i + 1) + ". " + snackList.get(i).showBasicData());
+            }
+            System.out.println(CONSOLECOLORS.YELLOW + "-------------------------------------------------------" + CONSOLECOLORS.RESET);
+            System.out.println("Mời nhập lựa chọn của bạn bằng chỉ số của mỗi loại đồ ăn/ đồ uống");
+            System.out.println("Nhập '0' khi bạn muốn ngừng mua");
+            byte choice = InputMethods.nextByte();
+            if (choice == 0)
+            {
+                return;
+            }
+            if (choice < 0 || choice > snackList.size())
+            {
+                System.out.println(CONSOLECOLORS.RED + CONSTANT.CHOICE_NOT_AVAI + CONSOLECOLORS.RESET);
+            } else
+            {
+                Snack snackChosen = snackList.get(choice - 1);
+                System.out.println("Bạn đã chọn " + snackChosen.getSnackName() + ". Mời nhập số lượng muốn mua");
+                System.out.println(CONSOLECOLORS.BLUE + "Bạn có thể nhập số âm để giảm bớt số lượng muốn mua" + CONSOLECOLORS.RESET);
+                byte amount = InputMethods.nextByte();
+                byte totalAmount = (byte) (snackChosen.getAmountPurchased() + amount);
+                //byte max = 128 => 50 là con số an toàn để không bị overflow
+                if (totalAmount < 0 || totalAmount > 50)
+                {
+                    System.out.println(CONSOLECOLORS.RED + "Số lượng không được nhỏ hơn 0 hay lớn hơn 50" + CONSOLECOLORS.RESET);
+                    continue;
+                }
+                snackChosen.setAmountPurchased(totalAmount);
+                System.out.println("Hiện tại bạn đã mua tổng cộng " + totalAmount + " " + snackChosen.getSnackName());
+            }
+        }
+
     }
 }

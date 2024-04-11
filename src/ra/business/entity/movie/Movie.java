@@ -84,11 +84,11 @@ public class Movie implements Serializable
         {   //Tránh null pointer nếu các lịch chiếu trước đó đều bị xóa
             onShowTimeList = getShowInfoFromId(showTimeList);
         }
-        System.out.println(CONSOLECOLORS.YELLOW + "======================================================================" + CONSOLECOLORS.RESET);
+        System.out.println(CONSOLECOLORS.YELLOW + "=====================================================================================================================" + CONSOLECOLORS.RESET);
         System.out.printf("Mã phim: %s | Tên phim: %s | Thời lượng: %s | Phân loại: %s \n",
                 this.movieId, this.movieName, this.duration, this.movieRating);
         System.out.printf("Lịch chiếu: %s \n", !onShowTimeList.isEmpty() ? onShowTimeList : "Sắp ra mắt");
-        System.out.println(CONSOLECOLORS.YELLOW + "======================================================================" + CONSOLECOLORS.RESET);
+        System.out.println(CONSOLECOLORS.YELLOW + "=====================================================================================================================" + CONSOLECOLORS.RESET);
     }
 
     private StringBuilder getShowInfoFromId(List<ShowTime> showTimeList)

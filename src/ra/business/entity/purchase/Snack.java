@@ -6,6 +6,7 @@ import ra.business.config.InputMethods;
 import ra.business.design.IPurchasable;
 import ra.business.entity.enumclasses.SNACK_TYPE;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -16,17 +17,53 @@ public class Snack implements IPurchasable
     private int price;
     private SNACK_TYPE snackType;
     private String snackName;
+    private byte amountPurchased;
 
     public void inputData(List<Snack> snackList, boolean isAdding)
     {
         inputSnackType();
         inputSnackName(snackList, isAdding);
         inputSnackPrice();
+        if (isAdding)
+        {
+            inputSnackId(snackList);
+        }
     }
 
-    private void inputSnackId()
+    public void displayData()
+    {
+        System.out.printf("Mã đồ ăn/ đồ uống: %s | Tên: %s | Giá bán: %s | Phân loại: %s\n",
+                this.snackId, this.snackName, CONSTANT.currencyFormat.format(this.price), this.snackType.getName());
+    }
+
+    //UI
+    public String showBasicData()
+    {
+        return "Tên: " + this.snackName + " | Giá bán: " + CONSTANT.currencyFormat.format(this.price);
+    }
+
+    private void inputSnackId(List<Snack> snackList)
     {
         //Tự tăng dựa theo snack type
+        List<Snack> sameTypeList = snackList.stream().filter(s -> s.snackType == this.snackType).toList();
+        int maxId = getMaxId(sameTypeList);
+        switch (this.snackType)
+        {
+            case POPCORN:
+                this.snackId = "P" + String.format("%02d", maxId);
+                break;
+            case SOFT_DRINK:
+                this.snackId = "S" + String.format("%02d", maxId);
+                break;
+            case OTHER_FOOD:
+                this.snackId = "F" + String.format("%02d", maxId);
+                break;
+            case OTHER_DRINK:
+                this.snackId = "W" + String.format("%02d", maxId);
+                break;
+            default:
+                break;
+        }
     }
 
     private void inputSnackName(List<Snack> snackList, boolean isAdding)
@@ -98,6 +135,16 @@ public class Snack implements IPurchasable
         }
     }
 
+    private int getMaxId(List<Snack> sameTypeList)
+    {
+        if (sameTypeList.isEmpty())
+        {
+            return 0;
+        }
+        Snack maxIdSnack = sameTypeList.stream().max(Comparator.comparing(s -> s.snackId)).orElse(null);
+        return Integer.parseInt(maxIdSnack.snackId.substring(1)) + 1;
+    }
+
     public String getSnackId()
     {
         return snackId;
@@ -136,5 +183,15 @@ public class Snack implements IPurchasable
     public void setSnackType(SNACK_TYPE snackType)
     {
         this.snackType = snackType;
+    }
+
+    public byte getAmountPurchased()
+    {
+        return amountPurchased;
+    }
+
+    public void setAmountPurchased(byte amountPurchased)
+    {
+        this.amountPurchased = amountPurchased;
     }
 }

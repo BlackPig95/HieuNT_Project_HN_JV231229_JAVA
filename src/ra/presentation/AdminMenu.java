@@ -6,7 +6,6 @@ import ra.business.config.InputMethods;
 import ra.business.design.ICategoryDesign;
 import ra.business.design.IDeletable;
 import ra.business.design.IUserDesign;
-import ra.business.entity.category.MovieCategory;
 import ra.business.implementation.*;
 
 public class AdminMenu
@@ -16,6 +15,7 @@ public class AdminMenu
     private static final IDeletable showTimeManagement = new ShowTimeManagement();
     static final IUserDesign userManagement = new UserManagement();
     private static final IDeletable roomManagement = new RoomManagement();
+    private static final IDeletable snackManagement = new SnackManagement();
 
     public void displayAdminMenu()
     {
@@ -28,6 +28,7 @@ public class AdminMenu
                     3. Quản lý phòng chiếu
                     4. Quản lý lịch chiếu
                     5. Quản lý danh sách phim
+                    6. Quản lý danh sách đồ ăn/ đồ uống tại rạp
                     0. Đăng xuất
                     """);
             System.out.println("Hãy nhập lựa chọn theo danh sách ở trên");
@@ -48,6 +49,9 @@ public class AdminMenu
                     break;
                 case 5:
                     displayMovieManageMenu();
+                    break;
+                case 6:
+                    displaySnackManageMenu();
                     break;
                 case 0:
                     return;
@@ -249,6 +253,47 @@ public class AdminMenu
                     break;
                 case 5:
                     roomManagement.deleteItem();
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println(CONSOLECOLORS.RED + CONSTANT.CHOICE_NOT_AVAI + CONSOLECOLORS.RESET);
+                    break;
+            }
+        }
+    }
+
+    private void displaySnackManageMenu()
+    {
+        while (true)
+        {
+            System.out.println("""
+                    ********************CHÀO MỪNG ADMIN********************
+                    1. Thêm đồ ăn/ đồ uống mới
+                    2. Cập nhật thông tin đồ ăn/ đồ uống
+                    3. Tìm kiếm đồ ăn/ đồ uống
+                    4. Hiển thị danh sách đồ ăn/ đồ uống hiện có
+                    5. Xóa đồ ăn/ đồ uống
+                    0. Quay lại
+                    """);
+            System.out.println("Hãy nhập lựa chọn theo danh sách ở trên");
+            byte choice = InputMethods.nextByte();
+            switch (choice)
+            {
+                case 1:
+                    snackManagement.addItem();
+                    break;
+                case 2:
+                    snackManagement.updateItem();
+                    break;
+                case 3:
+                    snackManagement.findItem();
+                    break;
+                case 4:
+                    snackManagement.displayAllItem();
+                    break;
+                case 5:
+                    snackManagement.deleteItem();
                     break;
                 case 0:
                     return;

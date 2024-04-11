@@ -1,7 +1,12 @@
 package ra.business.config;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class CONSTANT
 {
+    public static final Locale VN_LOCALE = new Locale("vi", "VN");
+    public static final NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(VN_LOCALE);
     public static final String DDMMYYYY = "dd/MM/yyyy";
     public static final String ID_NOT_EXIST = "Id không tồn tại";
     public static final String CHOICE_NOT_AVAI = "Lựa chọn không khả dụng";
