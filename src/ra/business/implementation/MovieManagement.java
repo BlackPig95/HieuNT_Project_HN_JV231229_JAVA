@@ -6,6 +6,7 @@ import ra.business.config.IOFile;
 import ra.business.config.InputMethods;
 import ra.business.design.IDeletable;
 import ra.business.entity.movie.Movie;
+import ra.business.entity.movie.ShowTime;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -44,16 +45,29 @@ public class MovieManagement implements IDeletable
             System.out.println(CONSOLECOLORS.RED + "Vui lòng nhập danh sách lịch chiếu trước khi thêm phim" + CONSOLECOLORS.RESET);
             return;
         }
+        if (checkAvailableShowTime())//Kiểm tra xem có lịch chiếu nào còn trống không
+        {
+            System.out.println(CONSOLECOLORS.RED + "Không còn lịch chiếu nào trống. Vui lòng thêm lịch chiếu trước khi thêm phim mới" + CONSOLECOLORS.RESET);
+            return;
+        }
         System.out.println("Nhập số lượng phim muốn thêm mới");
         byte n = InputMethods.nextByte();
         for (int i = 0; i < n; i++)
         {
+            if (checkAvailableShowTime())//Kiểm tra xem có lịch chiếu nào còn trống không
+            {
+                System.out.println(CONSOLECOLORS.RED + "Không còn lịch chiếu nào trống. Vui lòng thêm lịch chiếu trước khi thêm phim mới" + CONSOLECOLORS.RESET);
+                return;
+            }
             Movie newMovie = new Movie();
             newMovie.inputData(movieList, movieCategoryList, showTimeList, true);
             movieList.add(newMovie);
             System.out.println(CONSOLECOLORS.GREEN + "Thêm phim thành công" + CONSOLECOLORS.RESET);
+            //Đảm bảo không xảy ra tình trạng status isTaken của showTime không được cập nhật
+            //Đảm bảo phim sẽ được ghi sau mỗi lần thêm mới
+            IOFile.writeToFile(IOFile.SHOW_TIME_PATH, showTimeList);
+            IOFile.writeToFile(IOFile.MOVIE_PATH, movieList);
         }
-        IOFile.writeToFile(IOFile.MOVIE_PATH, movieList);
     }
 
     @Override
@@ -162,5 +176,20 @@ public class MovieManagement implements IDeletable
             System.out.println("Danh sách các phim có tên giống với mô tả:");
             movieFoundList.forEach(m -> m.displayData(showTimeList));
         }
+    }
+
+    private boolean checkAvailableShowTime()
+    {
+        boolean allShowTimeTaken = true;
+        for (ShowTime showTime : showTimeList)
+        {
+            System.out.println(showTime.isTaken());
+            if (!showTime.isTaken())
+            {
+                allShowTimeTaken = false;
+                break;
+            }
+        }
+        return allShowTimeTaken;
     }
 }

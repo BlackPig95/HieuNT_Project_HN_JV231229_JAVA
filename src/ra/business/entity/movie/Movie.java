@@ -72,7 +72,7 @@ public class Movie implements Serializable
         inputCategory(movieCategoryList);
         inputMovieRating();
         inputMovieDuration();
-        inputMovieShowTime(showTimeList);
+        inputMovieShowTime(showTimeList, movieList);
     }
 
     public void displayData(List<ShowTime> showTimeList)
@@ -234,14 +234,15 @@ public class Movie implements Serializable
         }
     }
 
-    private void inputMovieShowTime(List<ShowTime> showTimeList)
+    private void inputMovieShowTime(List<ShowTime> showTimeList, List<Movie> movieList)
     {
+        outer:
         while (true)
         {
             System.out.println("Danh sách các lịch chiếu hiện có:");
             showTimeList.forEach(s -> s.displayData());
             System.out.println("Thêm lịch chiếu của phim này bằng cách nhập mã lịch chiếu:");
-            System.out.println("Nhập chính xác 'esc' khi muốn ngừng thêm lịch chiếu cho phim này");
+            System.out.println(CONSOLECOLORS.BLUE + "Nhập chính xác 'esc' khi muốn ngừng thêm lịch chiếu cho phim này" + CONSOLECOLORS.RESET);
             String timeChoice = InputMethods.nextLine();
             if (timeChoice.equals("esc") && showTimeId.size() == 0)
             {
@@ -256,22 +257,31 @@ public class Movie implements Serializable
             {
                 System.out.println(CONSOLECOLORS.RED + CONSTANT.CHOICE_NOT_AVAI + CONSOLECOLORS.RESET);
             } else
-            {
-                boolean alreadyChosen = false;
+            {   //Kiểm tra danh sách các phim hiện có
+                for (Movie movie : movieList)
+                {   //Kiểm tra danh sách lịch chiếu của mỗi phim
+                    for (String showTime : movie.showTimeId)
+                    {   //Nếu lịch chiếu này đã được phim khác chọn rồi, thì không cho chọn tiếp
+                        if (showTime.equals(chosenTime.getShowTimeId()) && movie != this)
+                        {
+                            System.out.println(CONSOLECOLORS.RED + "Đã có phim đặt lịch chiếu này" + CONSOLECOLORS.RESET);
+                            continue outer;
+                        }
+                    }
+                }
                 for (String time : this.showTimeId)
                 {
                     if (chosenTime.getShowTimeId().equals(time))
                     {
-                        System.out.println(CONSOLECOLORS.RED + "Lịch chiếu này đã được chọn" + CONSOLECOLORS.RESET);
-                        alreadyChosen = true;
-                        break;
+                        this.showTimeId.remove(chosenTime.getShowTimeId());
+                        chosenTime.setTaken(false);
+                        System.out.println(CONSOLECOLORS.GREEN + "Đã bỏ chọn lịch chiếu" + CONSOLECOLORS.RESET);
+                        continue outer;
                     }
                 }
-                if (!alreadyChosen)
-                {
-                    this.showTimeId.add(chosenTime.getShowTimeId());
-                    System.out.println(CONSOLECOLORS.GREEN + "Thêm lịch chiếu thành công" + CONSOLECOLORS.RESET);
-                }
+                this.showTimeId.add(chosenTime.getShowTimeId());
+                chosenTime.setTaken(true);
+                System.out.println(CONSOLECOLORS.GREEN + "Thêm lịch chiếu thành công" + CONSOLECOLORS.RESET);
             }
         }
     }

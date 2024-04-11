@@ -20,6 +20,7 @@ public class ShowTime implements Serializable
     private String showTimeId;//String vì có thể có nhiều ngày chiếu khác nhau
     private LocalDateTime onAirTime;
     private Room room;
+    private boolean isTaken;
 
     //Sử dụng map để lọc danh sách các ghế ngồi tương ứng cho từng showTime
     private Map<String, SEAT_STATUS> chosenSeatMap = new TreeMap<>();
@@ -28,11 +29,12 @@ public class ShowTime implements Serializable
     {
     }
 
-    public ShowTime(String showTimeId, LocalDateTime onAirTime, Room room, Map<String, SEAT_STATUS> chosenSeatMap)
+    public ShowTime(String showTimeId, LocalDateTime onAirTime, Room room, boolean isTaken, Map<String, SEAT_STATUS> chosenSeatMap)
     {
         this.showTimeId = showTimeId;
         this.onAirTime = onAirTime;
         this.room = room;
+        this.isTaken = isTaken;
         this.chosenSeatMap = chosenSeatMap;
     }
 
@@ -146,8 +148,19 @@ public class ShowTime implements Serializable
         return chosenSeatMap;
     }
 
+    public boolean isTaken()
+    {
+        return isTaken;
+    }
+
+    public void setTaken(boolean taken)
+    {
+        isTaken = taken;
+    }
+
     public void setChosenSeatMap(Map<String, SEAT_STATUS> chosenSeatMap)
     {
         this.chosenSeatMap = chosenSeatMap;
+
     }
 }
