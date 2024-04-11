@@ -19,7 +19,7 @@ public class Room implements Serializable
 
     public Room(byte roomId, List<List<Seat>> seatList)
     {
-        this.seatList = new ArrayList<>();
+        this.seatList = seatList;
         this.roomId = roomId;
     }
 

@@ -2,13 +2,17 @@ package ra.business.entity.movie;
 
 import ra.business.config.CONSOLECOLORS;
 import ra.business.config.CONSTANT;
+import ra.business.config.IOFile;
 import ra.business.config.InputMethods;
+import ra.business.entity.enumclasses.SEAT_STATUS;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class ShowTime implements Serializable
 {
@@ -17,20 +21,23 @@ public class ShowTime implements Serializable
     private LocalDateTime onAirTime;
     private Room room;
 
+    //Sử dụng map để lọc danh sách các ghế ngồi tương ứng cho từng showTime
+    private Map<String, SEAT_STATUS> chosenSeatMap = new TreeMap<>();
+
     public ShowTime()
     {
     }
 
-    public ShowTime(String showTimeId, LocalDateTime onAirTime, Room room)
+    public ShowTime(String showTimeId, LocalDateTime onAirTime, Room room, Map<String, SEAT_STATUS> chosenSeatMap)
     {
         this.showTimeId = showTimeId;
         this.onAirTime = onAirTime;
         this.room = room;
+        this.chosenSeatMap = chosenSeatMap;
     }
 
     public void inputData(List<Room> roomList, List<ShowTime> showTimeList, boolean isAdding)
     {
-
         inputShowTimeId(showTimeList, isAdding);
         inputOnAirTime();
         inputRoom(roomList);
@@ -58,7 +65,7 @@ public class ShowTime implements Serializable
                         return;
                     }
                 }
-                //Nếu không phải => trùng với phòng khác => không cho set
+                //Nếu không phải => trùng với lịch khác => không cho set
                 System.out.println(CONSOLECOLORS.RED + "Mã lịch chiếu đã tồn tại. Vui lòng nhập mã khác" + CONSOLECOLORS.RESET);
                 continue;
             }
@@ -132,5 +139,15 @@ public class ShowTime implements Serializable
     public void setRoom(Room room)
     {
         this.room = room;
+    }
+
+    public Map<String, SEAT_STATUS> getChosenSeatMap()
+    {
+        return chosenSeatMap;
+    }
+
+    public void setChosenSeatMap(Map<String, SEAT_STATUS> chosenSeatMap)
+    {
+        this.chosenSeatMap = chosenSeatMap;
     }
 }
