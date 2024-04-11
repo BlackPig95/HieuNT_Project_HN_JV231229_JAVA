@@ -86,7 +86,8 @@ public class PurchaseManagement
             {
                 //Chọn lịch chiếu, sau đó lấy ra danh sách ghế ngồi của phòng chiếu tương ứng
                 ShowTime chosenShowTime = chooseShowTime(moviePurchased);
-                List<List<Seat>> seatList = chosenShowTime.getRoomFromId(roomList).getSeatList();
+                //seatList dựa trên chosenShowTime
+                List<List<Seat>> seatList = chosenShowTime.getRoom().getSeatList();
                 //Dựa trên danh sách ghế ngồi, cho khách chọn các ghế muốn đặt
                 List<Seat> seatsChosen = chooseSeats(seatList);
                 if (seatsChosen.isEmpty())
@@ -122,7 +123,7 @@ public class PurchaseManagement
             if (!newTicket.getTicketId().isBlank())
             {
                 //Set các ghế đã chọn thành Taken
-                List<List<Seat>> seatList = newTicket.getShowTimeFromId(showTimeList).getRoomFromId(roomList).getSeatList();
+                List<List<Seat>> seatList = newTicket.getShowTimeFromId(showTimeList).getRoom().getSeatList();
                 for (List<Seat> seatRow : seatList)
                 {
                     seatRow.stream().filter(seat -> seat.getSeatStatus() == SEAT_STATUS.CHOSEN).
@@ -133,7 +134,7 @@ public class PurchaseManagement
         }
         customerPurchaseList.add(newTicket);
         System.out.println(CONSOLECOLORS.GREEN + "Đặt vé thành công" + CONSOLECOLORS.RESET);
-        IOFile.writeToFile(IOFile.ROOM_PATH, roomList);//Cập nhật thông tin ghế ngồi của phòng
+        IOFile.writeToFile(IOFile.SHOW_TIME_PATH, showTimeList);//Cập nhật thông tin ghế ngồi của phòng
     }
 
     private Movie getMovieIndexByName(String movieName)
@@ -141,10 +142,10 @@ public class PurchaseManagement
         return movieList.stream().filter(m -> m.getMovieName().equals(movieName)).findFirst().orElse(null);
     }
 
-    private String getShowInfo(int showIndex)
-    {
-        ShowTime currentShow = showTimeList.get(showIndex);
-        return "Phòng chiếu số: " + currentShow.getRoomId() + "\n" +
+    private String getShowInfo(int showIndex, Movie moviePurchased)
+    {   //Từ phim đã chọn, lấy ra thông tin lịch chiếu tương ứng
+        ShowTime currentShow = moviePurchased.getShowTimeFromId(showTimeList, moviePurchased.getShowTimeId().get(showIndex));
+        return "Phòng chiếu số: " + currentShow.getRoom().getRoomId() + "\n" +
                 "Giờ chiếu: " + currentShow.getOnAirTime().format(dateTimeFormatter);
     }
 
@@ -154,15 +155,15 @@ public class PurchaseManagement
         System.out.println(CONSOLECOLORS.YELLOW + "-----------------------------------------------------------------------------" + CONSOLECOLORS.RESET);
         for (int i = 1; i <= moviePurchased.getShowTimeId().size(); i++)
         {   //Từ thông tin phim đã chọn, lấy ra danh sách lịch chiếu tương ứng
-//            List<List<Seat>> seatList = showTimeList.get(i - 1).getRoomFromId(roomList).getSeatList();
-            List<List<Seat>> seatList = moviePurchased.
-                    getShowTimeFromId(showTimeList, moviePurchased.getShowTimeId().get(i - 1)).
-                    getRoomFromId(roomList).getSeatList();
-            //Hiển thị từng lịch chiếu tương ứng
-            System.out.println(i + ". " + getShowInfo(i - 1));
+            //Hiển thị từng lịch chiếu tương ứng-truyền i-1 làm index để truy xuất các showTime trong
+            //list showTime của object moviePurchased
+            System.out.println(i + ". " + getShowInfo(i - 1, moviePurchased));
             System.out.println("Danh sách ghế ngồi: (Màu đỏ là ghế đã có người đặt. " +
                     "Màu tím là ghế bạn đã chọn)");
-            //Hiển thị danh sách ghế ngồi
+            //Hiển thị danh sách ghế ngồi tương ứng
+            List<List<Seat>> seatList = moviePurchased.
+                    getShowTimeFromId(showTimeList, moviePurchased.getShowTimeId().get(i - 1)).
+                    getRoom().getSeatList();
             displaySeatList(seatList);
             System.out.println(CONSOLECOLORS.BLUE + "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" + CONSOLECOLORS.RESET);
         }
@@ -211,12 +212,14 @@ public class PurchaseManagement
                 continue;
             }
             System.out.println("Bạn đã chọn lịch chiếu số: " + showTimeChoice);
-            return showTimeList.get(showTimeChoice - 1);
+            //Lấy ra showTime thuộc list showTime của moviePurchased
+            return moviePurchased.getShowTimeFromId
+                    (showTimeList, moviePurchased.getShowTimeId().get(showTimeChoice - 1));
         }
     }
 
     private List<Seat> chooseSeats(List<List<Seat>> seatList)
-    {
+    {   //Đang nhận sai seatList
         List<Seat> seatsChosen = new ArrayList<>();
         while (true)
         {

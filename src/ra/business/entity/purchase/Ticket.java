@@ -8,6 +8,7 @@ import java.util.List;
 public class Ticket implements IPurchasable
 {
     private String ticketId = "";
+
     private int price = 55000;
     private String movieId;
     private String showTimeId;

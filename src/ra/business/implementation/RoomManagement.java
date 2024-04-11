@@ -108,8 +108,8 @@ public class RoomManagement implements IDeletable
         {
             System.out.println(CONSOLECOLORS.RED + "Không tìm thấy phòng chiếu" + CONSOLECOLORS.RESET);
             return;
-        }
-        if (showTimeList.stream().anyMatch(s -> s.getRoomId() == roomList.get(indexDelete).getRoomId()))
+        }   //So sánh qua Id để không bị sai reference
+        if (showTimeList.stream().anyMatch(s -> s.getRoom().getRoomId() == roomList.get(indexDelete).getRoomId()))
         {
             System.out.println(CONSOLECOLORS.RED +
                     "Không thể xóa phòng chiếu, vì vẫn còn lịch chiếu phim ở phòng này" + CONSOLECOLORS.RESET);

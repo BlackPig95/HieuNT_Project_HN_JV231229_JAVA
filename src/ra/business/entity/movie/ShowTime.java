@@ -15,47 +15,17 @@ public class ShowTime implements Serializable
     static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
     private String showTimeId;//String vì có thể có nhiều ngày chiếu khác nhau
     private LocalDateTime onAirTime;
-    private byte roomId;
+    private Room room;
 
     public ShowTime()
     {
     }
 
-    public ShowTime(String showTimeId, LocalDateTime onAirTime, byte roomId)
+    public ShowTime(String showTimeId, LocalDateTime onAirTime, Room room)
     {
         this.showTimeId = showTimeId;
         this.onAirTime = onAirTime;
-        this.roomId = roomId;
-    }
-
-    public String getShowTimeId()
-    {
-        return showTimeId;
-    }
-
-    public void setShowTimeId(String showTimeId)
-    {
-        this.showTimeId = showTimeId;
-    }
-
-    public LocalDateTime getOnAirTime()
-    {
-        return onAirTime;
-    }
-
-    public void setOnAirTime(LocalDateTime onAirTime)
-    {
-        this.onAirTime = onAirTime;
-    }
-
-    public byte getRoomId()
-    {
-        return roomId;
-    }
-
-    public void setRoomId(byte roomId)
-    {
-        this.roomId = roomId;
+        this.room = room;
     }
 
     public void inputData(List<Room> roomList, List<ShowTime> showTimeList, boolean isAdding)
@@ -63,18 +33,13 @@ public class ShowTime implements Serializable
 
         inputShowTimeId(showTimeList, isAdding);
         inputOnAirTime();
-        inputRoomId(roomList);
+        inputRoom(roomList);
     }
 
     public void displayData()
     {
         System.out.printf("Mã lịch chiếu: %s | Thời gian chiếu: %s | Phòng chiếu: %d \n",
-                this.showTimeId, this.onAirTime.format(dateTimeFormatter), this.roomId);
-    }
-
-    public Room getRoomFromId(List<Room> roomList)
-    {
-        return roomList.stream().filter(r -> r.getRoomId() == this.roomId).findFirst().orElse(null);
+                this.showTimeId, this.onAirTime.format(dateTimeFormatter), this.room.getRoomId());
     }
 
     private void inputShowTimeId(List<ShowTime> showTimeList, boolean isAdding)
@@ -119,7 +84,7 @@ public class ShowTime implements Serializable
         }
     }
 
-    private void inputRoomId(List<Room> roomList)
+    private void inputRoom(List<Room> roomList)
     {
         System.out.println("Danh sách các phòng chiếu hiện có:");
         roomList.forEach(r -> r.displayData());
@@ -133,9 +98,39 @@ public class ShowTime implements Serializable
                 System.out.println(CONSOLECOLORS.RED + CONSTANT.CHOICE_NOT_AVAI + CONSOLECOLORS.RESET);
             } else
             {
-                roomId = roomChosen.getRoomId();
+                this.room = roomChosen;
                 return;
             }
         }
+    }
+
+    public String getShowTimeId()
+    {
+        return showTimeId;
+    }
+
+    public void setShowTimeId(String showTimeId)
+    {
+        this.showTimeId = showTimeId;
+    }
+
+    public LocalDateTime getOnAirTime()
+    {
+        return onAirTime;
+    }
+
+    public void setOnAirTime(LocalDateTime onAirTime)
+    {
+        this.onAirTime = onAirTime;
+    }
+
+    public Room getRoom()
+    {
+        return room;
+    }
+
+    public void setRoom(Room room)
+    {
+        this.room = room;
     }
 }

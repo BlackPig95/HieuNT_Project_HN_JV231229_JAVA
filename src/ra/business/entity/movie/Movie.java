@@ -97,8 +97,8 @@ public class Movie implements Serializable
             //rồi truy cập vào trường thể hiện thời gian chiếu và phòng chiếu để nối chuỗi
             ShowTime show = getShowTimeFromId(showTimeList, s);
             onShowTimeList.append(show.getShowTimeId()).append(" - ");
-            onShowTimeList.append("Ngày: ").append(dateTimeFormatter.format(show.getOnAirTime()));
-            onShowTimeList.append(" Phòng: ").append(show.getRoomId());
+            onShowTimeList.append("Ngày: ").append(dateTimeFormatter.format(show.getOnAirTime())).append(" - ");
+            onShowTimeList.append(" Phòng: ").append(show.getRoom().getRoomId());
             onShowTimeList.append(CONSOLECOLORS.BLUE + " | " + CONSOLECOLORS.RESET);
         }
         return onShowTimeList;
