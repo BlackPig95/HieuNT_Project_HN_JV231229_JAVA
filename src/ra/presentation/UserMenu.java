@@ -2,6 +2,7 @@ package ra.presentation;
 
 import ra.business.config.CONSOLECOLORS;
 import ra.business.config.CONSTANT;
+import ra.business.config.IOFile;
 import ra.business.config.InputMethods;
 import ra.business.entity.user.User;
 import ra.business.implementation.PurchaseManagement;
@@ -21,8 +22,7 @@ public class UserMenu
                     2. Tìm kiếm phim
                     3. Hiển thị danh sách phim
                     4. Cài đặt thông tin cá nhân
-                    0. Đăng xuất
-                    """);
+                    0. Đăng xuất""");
             System.out.println("Hãy nhập lựa chọn theo danh sách ở trên");
             byte choice = InputMethods.nextByte();
             switch (choice)
@@ -40,6 +40,10 @@ public class UserMenu
                     displayPersonalInfoMenu(currentUser);
                     break;
                 case 0:
+                    //JAVA chỉ có pass by sharing => set null ở đây sẽ không ảnh hưởng đến user được truyền vào
+                    currentUser = null;
+                    //Viết lại file để lần sau đọc lại
+                    IOFile.writeObject(IOFile.USER_LOGIN, currentUser);
                     return;
                 default:
                     System.out.println(CONSOLECOLORS.RED + CONSTANT.CHOICE_NOT_AVAI + CONSOLECOLORS.RESET);

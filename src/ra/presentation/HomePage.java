@@ -2,6 +2,7 @@ package ra.presentation;
 
 import ra.business.config.CONSOLECOLORS;
 import ra.business.config.CONSTANT;
+import ra.business.config.IOFile;
 import ra.business.config.InputMethods;
 import ra.business.entity.enumclasses.USER_ROLE;
 import ra.business.entity.user.User;
@@ -13,44 +14,71 @@ public class HomePage
     private static final AuthenticationService authentication = new AuthenticationService();
     private static final UserMenu userMenu = new UserMenu();
     private static final AdminMenu adminMenu = new AdminMenu();
-    public static User user = null;
+    public static User user;
 
     public static void main(String[] args)
     {
         while (true)
         {
-            System.out.println("""
-                    ********************CHÀO MỪNG********************
-                    1. Xem danh sách phim hiện có (Đăng nhập để mua vé)
-                    2. Đăng ký
-                    3. Đăng nhập
-                    0. Thoát khỏi trang
-                    """);
-            System.out.println("Hãy nhập lựa chọn theo danh sách ở trên");
-            byte choice = InputMethods.nextByte();
-            switch (choice)
+            //JAVA không tồn tại pass by reference mà chỉ có pass by sharing
+            //=> Khi user logout thì phải tự set lại user hiện thành null
+            //Việc set param của hàm displayUserMenu thành null sẽ không ảnh hưởng
+            //tới user hiện tại => Phải đọc lại file mỗi lần quay lại menu để đảm bảo
+            //user được cập nhật theo file mới nhất
+            try
             {
-                case 1:
-                    AdminMenu.movieManagement.displayAllItem();
-                    break;
-                case 2:
-                    authentication.register();
-                    System.out.println(CONSOLECOLORS.GREEN + "Đăng ký thành công" + CONSOLECOLORS.RESET);
-                    break;
-                case 3:
-                    login();
-                    break;
-                case 0:
-                    return;
-                default:
-                    System.out.println(CONSOLECOLORS.RED + CONSTANT.CHOICE_NOT_AVAI + CONSOLECOLORS.RESET);
-                    break;
+                user = IOFile.readObject(IOFile.USER_LOGIN);
+            } catch (Exception e)
+            {
+                user = null;
+            }
+            if (user == null)
+            {
+                System.out.println("""
+                        ********************CHÀO MỪNG********************
+                        1. Xem danh sách phim hiện có (Đăng nhập để mua vé)
+                        2. Đăng ký
+                        3. Đăng nhập
+                        0. Thoát khỏi trang
+                        """);
+                System.out.println("Hãy nhập lựa chọn theo danh sách ở trên");
+                byte choice = InputMethods.nextByte();
+                switch (choice)
+                {
+                    case 1:
+                        AdminMenu.movieManagement.displayAllItem();
+                        break;
+                    case 2:
+                        authentication.register();
+                        System.out.println(CONSOLECOLORS.GREEN + "Đăng ký thành công" + CONSOLECOLORS.RESET);
+                        break;
+                    case 3:
+                        login();
+                        break;
+                    case 0:
+                        return;
+                    default:
+                        System.out.println(CONSOLECOLORS.RED + CONSTANT.CHOICE_NOT_AVAI + CONSOLECOLORS.RESET);
+                        break;
+                }
+            } else
+            {
+                login();
             }
         }
     }
 
     private static void login()
     {
+        if (user != null)
+        {
+            userMenu.displayUserMenu(user);
+            //JAVA không tồn tại pass by reference mà chỉ có pass by sharing
+            //=> Khi user logout thì phải tự set lại user hiện thành null
+            //Việc set param của hàm displayUserMenu thành null sẽ không ảnh hưởng
+            //tới user hiện tại
+            return;
+        }
         System.out.println("Nhập email của bạn");
         String emailLogin = InputMethods.nextLine();
         System.out.println("Nhập mật khẩu của bạn");
@@ -85,6 +113,9 @@ public class HomePage
                 if (userLogin.isStatus())
                 {
                     user = userLogin;
+                    //Viết vào file trước khi gọi displayMenu để khi hàm displayMenu trả về sẽ không bị ghi đè
+                    //file 1 lần nữa gây lỗi vì cơ chế pass by sharing
+                    IOFile.writeObject(IOFile.USER_LOGIN, user);
                     userMenu.displayUserMenu(user);
                 } else
                 {
@@ -93,6 +124,9 @@ public class HomePage
             } else if (userLogin.getRole() == USER_ROLE.ADMIN)
             {
                 user = userLogin;
+                //Viết vào file trước khi gọi displayMenu để khi hàm displayMenu trả về sẽ không bị ghi đè
+                //file 1 lần nữa gây lỗi vì cơ chế pass by sharing
+                IOFile.writeObject(IOFile.USER_LOGIN, user);
                 adminMenu.displayAdminMenu();
             }
         }

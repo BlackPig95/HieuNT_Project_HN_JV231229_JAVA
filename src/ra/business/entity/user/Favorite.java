@@ -1,5 +1,8 @@
 package ra.business.entity.user;
 
+import ra.business.config.IOFile;
+
+import java.io.Serializable;
 import java.util.List;
 
 public class Favorite
