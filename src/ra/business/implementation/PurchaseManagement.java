@@ -136,11 +136,6 @@ public class PurchaseManagement
         IOFile.writeToFile(IOFile.ROOM_PATH, roomList);//Cập nhật thông tin ghế ngồi của phòng
     }
 
-    private void purchaseSnack()
-    {
-        System.out.println("Danh sách các loại đồ ăn và đồ uống hiện có:");
-    }
-
     private Movie getMovieIndexByName(String movieName)
     {
         return movieList.stream().filter(m -> m.getMovieName().equals(movieName)).findFirst().orElse(null);
@@ -158,8 +153,12 @@ public class PurchaseManagement
         System.out.printf("Đã chọn phim: %s. Dưới đây là danh sách lịch chiếu\n", moviePurchased.getMovieName());
         System.out.println(CONSOLECOLORS.YELLOW + "-----------------------------------------------------------------------------" + CONSOLECOLORS.RESET);
         for (int i = 1; i <= moviePurchased.getShowTimeId().size(); i++)
-        {
-            List<List<Seat>> seatList = showTimeList.get(i - 1).getRoomFromId(roomList).getSeatList();
+        {   //Từ thông tin phim đã chọn, lấy ra danh sách lịch chiếu tương ứng
+//            List<List<Seat>> seatList = showTimeList.get(i - 1).getRoomFromId(roomList).getSeatList();
+            List<List<Seat>> seatList = moviePurchased.
+                    getShowTimeFromId(showTimeList, moviePurchased.getShowTimeId().get(i - 1)).
+                    getRoomFromId(roomList).getSeatList();
+            //Hiển thị từng lịch chiếu tương ứng
             System.out.println(i + ". " + getShowInfo(i - 1));
             System.out.println("Danh sách ghế ngồi: (Màu đỏ là ghế đã có người đặt. " +
                     "Màu tím là ghế bạn đã chọn)");
@@ -211,7 +210,7 @@ public class PurchaseManagement
                 System.out.println(CONSOLECOLORS.RED + CONSTANT.CHOICE_NOT_AVAI + ". " + CONSTANT.INPUT_AGAIN + CONSOLECOLORS.RESET);
                 continue;
             }
-            System.out.println("Bạn đã chọn phòng chiếu số: " + showTimeChoice);
+            System.out.println("Bạn đã chọn lịch chiếu số: " + showTimeChoice);
             return showTimeList.get(showTimeChoice - 1);
         }
     }
@@ -278,7 +277,7 @@ public class PurchaseManagement
             }
             System.out.println(CONSOLECOLORS.YELLOW + "-------------------------------------------------------" + CONSOLECOLORS.RESET);
             System.out.println("Mời nhập lựa chọn của bạn bằng chỉ số của mỗi loại đồ ăn/ đồ uống");
-            System.out.println("Nhập '0' khi bạn muốn ngừng mua");
+            System.out.println(CONSOLECOLORS.BLUE + "Nhập '0' khi bạn muốn ngừng mua" + CONSOLECOLORS.RESET);
             byte choice = InputMethods.nextByte();
             if (choice == 0)
             {

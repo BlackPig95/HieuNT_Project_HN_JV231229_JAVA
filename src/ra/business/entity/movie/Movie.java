@@ -4,10 +4,8 @@ import ra.business.config.CONSOLECOLORS;
 import ra.business.config.CONSTANT;
 import ra.business.config.InputMethods;
 import ra.business.entity.category.MovieCategory;
-import ra.business.entity.user.User;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -87,7 +85,7 @@ public class Movie implements Serializable
         System.out.println(CONSOLECOLORS.YELLOW + "=====================================================================================================================" + CONSOLECOLORS.RESET);
         System.out.printf("Mã phim: %s | Tên phim: %s | Thời lượng: %s | Phân loại: %s \n",
                 this.movieId, this.movieName, this.duration, this.movieRating);
-        System.out.printf("Lịch chiếu: %s \n", !onShowTimeList.isEmpty() ? onShowTimeList : "Sắp ra mắt");
+        System.out.printf("Lịch chiếu: %s \n", !onShowTimeList.isEmpty() ? String.valueOf(onShowTimeList) : "Sắp ra mắt");
         System.out.println(CONSOLECOLORS.YELLOW + "=====================================================================================================================" + CONSOLECOLORS.RESET);
     }
 
@@ -98,16 +96,17 @@ public class Movie implements Serializable
         {   //Lấy ra object lịch chiếu
             //rồi truy cập vào trường thể hiện thời gian chiếu và phòng chiếu để nối chuỗi
             ShowTime show = getShowTimeFromId(showTimeList, s);
-            onShowTimeList.append(dateTimeFormatter.format(show.getOnAirTime()));
+            onShowTimeList.append(show.getShowTimeId()).append(" - ");
+            onShowTimeList.append("Ngày: ").append(dateTimeFormatter.format(show.getOnAirTime()));
             onShowTimeList.append(" Phòng: ").append(show.getRoomId());
-            onShowTimeList.append(" | ");
+            onShowTimeList.append(CONSOLECOLORS.BLUE + " | " + CONSOLECOLORS.RESET);
         }
         return onShowTimeList;
     }
 
-    private ShowTime getShowTimeFromId(List<ShowTime> showTimeList, String showTimeId)
+    public ShowTime getShowTimeFromId(List<ShowTime> showTimeList, String _showTimeId)
     {
-        return showTimeList.stream().filter(s -> s.getShowTimeId().equals(showTimeId)).findFirst().orElse(null);
+        return showTimeList.stream().filter(s -> s.getShowTimeId().equals(_showTimeId)).findFirst().orElse(null);
     }
 
     private void inputMovieName(List<Movie> movieList)
