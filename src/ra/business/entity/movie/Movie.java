@@ -64,7 +64,7 @@ public class Movie implements Serializable
         {
             inputMovieId(movieList);
         }
-        inputMovieName(movieList);
+        inputMovieName(movieList, isAdding);
         inputMovieDescription();
         inputMovieTrailer();
         inputMovieImage();
@@ -109,7 +109,7 @@ public class Movie implements Serializable
         return showTimeList.stream().filter(s -> s.getShowTimeId().equals(_showTimeId)).findFirst().orElse(null);
     }
 
-    private void inputMovieName(List<Movie> movieList)
+    private void inputMovieName(List<Movie> movieList, boolean isAdding)
     {
         while (true)
         {
@@ -122,6 +122,12 @@ public class Movie implements Serializable
             {
                 if (name.equals(inputName))
                 {
+                    //Nếu là hành động update và
+                    //trùng tên cũ thì không cần set nên cho return luôn
+                    if (name.equals(this.movieName) && !isAdding)
+                    {
+                        return;
+                    }
                     System.out.println(CONSOLECOLORS.RED + "Tên bộ phim này đã được sử dụng. " + CONSTANT.INPUT_AGAIN + CONSOLECOLORS.RESET);
                     nameExisted = true;
                     break;

@@ -183,7 +183,6 @@ public class MovieManagement implements IDeletable
         boolean allShowTimeTaken = true;
         for (ShowTime showTime : showTimeList)
         {
-            System.out.println(showTime.isTaken());
             if (!showTime.isTaken())
             {
                 allShowTimeTaken = false;
