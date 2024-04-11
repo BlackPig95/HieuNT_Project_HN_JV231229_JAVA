@@ -35,7 +35,13 @@ public class PurchaseManagement
         //Chỉ hiện thị ra những phim đã có lịch chiếu
         System.out.println("Danh sách phim hiện có:");
         movieList.stream().filter(m -> !m.getShowTimeId().isEmpty()).forEach(m -> m.displayData(showTimeList));
-        purchaseTicket(currentuser);
+        Ticket newTicket = purchaseTicket(currentuser);
+        //Nếu khách không mua vé thì ticket sẽ không có ID => Quay lại màn hình chính
+        if (newTicket.getTicketId().isEmpty())
+        {
+            System.out.println(CONSOLECOLORS.RED + "Bạn chưa chọn mua vé xem phim nên không thể tiếp tục" + CONSOLECOLORS.RESET);
+            return;
+        }
         displaySnackChoiceMenu();
     }
 
@@ -61,7 +67,7 @@ public class PurchaseManagement
         }
     }
 
-    private void purchaseTicket(User currentUser)
+    private Ticket purchaseTicket(User currentUser)
     {
         Ticket newTicket = new Ticket();
         while (true)
@@ -71,7 +77,7 @@ public class PurchaseManagement
             String moviePurchaseName = InputMethods.nextLine();
             if (moviePurchaseName.equals("esc"))
             {//Cho phép quay lại màn hình trước đó để xem lại danh sách phim
-                return;
+                return newTicket;
             }
             Movie moviePurchased = getMovieIndexByName(moviePurchaseName);
             if (moviePurchased == null)
@@ -90,9 +96,11 @@ public class PurchaseManagement
                 //seatList dựa trên chosenShowTime
                 List<List<Seat>> seatList = chosenShowTime.getRoom().getSeatList();
                 //Dựa trên danh sách ghế ngồi, cho khách chọn các ghế muốn đặt
+                //Hiển thị lại danh sách ghế ngồi của phòng chiếu
+                displaySeatList(seatList, chosenShowTime);
                 Map<String, SEAT_STATUS> seatsChosen = chooseSeats(seatList, chosenShowTime);
-                //Sửa lại kiểm tra chosen
-                if (seatsChosen.isEmpty())
+                //Nếu không có cái nào là CHOSEN => Khách chưa chọn ghế
+                if (!seatsChosen.containsValue(SEAT_STATUS.CHOSEN))
                 {
                     System.out.println(CONSOLECOLORS.RED + "Bạn chưa chọn ghế ngồi. Bạn có muốn chọn lại không?" + CONSOLECOLORS.RESET);
                     System.out.println("1. Chọn lại lịch chiếu và ghế");
@@ -149,6 +157,7 @@ public class PurchaseManagement
         customerPurchaseList.add(newTicket);
         System.out.println(CONSOLECOLORS.GREEN + "Đặt vé thành công" + CONSOLECOLORS.RESET);
         IOFile.writeToFile(IOFile.SHOW_TIME_PATH, showTimeList);//Cập nhật thông tin ghế ngồi của phòng
+        return newTicket;
     }
 
     private Movie getMovieIndexByName(String movieName)
@@ -236,6 +245,7 @@ public class PurchaseManagement
                 continue;
             }
             System.out.println("Bạn đã chọn lịch chiếu số: " + showTimeChoice);
+            System.out.println("Danh sách ghế ngồi:");
             //Lấy ra showTime thuộc list showTime của moviePurchased
             return moviePurchased.getShowTimeFromId
                     (showTimeList, moviePurchased.getShowTimeId().get(showTimeChoice - 1));
@@ -278,6 +288,8 @@ public class PurchaseManagement
                         //là CHOSEN
                         chosenShowTime.getChosenSeatMap().put(newSeatChosen.getSeatName(), SEAT_STATUS.CHOSEN);
                         newSeatChosen.setSeatStatus(SEAT_STATUS.CHOSEN);
+                        //Cập nhật danh sách ghế ngồi
+                        displaySeatList(seatList, chosenShowTime);
 //                        seatsChosen.add(newSeatChosen);
                         System.out.println(CONSOLECOLORS.GREEN + "Đã thêm ghế thành công" + CONSOLECOLORS.RESET);
                     } else if (newSeatChosen.getSeatStatus() == SEAT_STATUS.CHOSEN)
@@ -287,6 +299,8 @@ public class PurchaseManagement
 //                        chosenShowTime.getChosenSeatMap().put(newSeatChosen.getSeatName(), SEAT_STATUS.AVAILABLE);
                         newSeatChosen.setSeatStatus(SEAT_STATUS.AVAILABLE);
 //                        seatsChosen.remove(newSeatChosen);
+                        //Cập nhật danh sách ghế ngồi
+                        displaySeatList(seatList, chosenShowTime);
                         System.out.println(CONSOLECOLORS.GREEN_UNDERLINED + "Đã bỏ chọn ghế" + CONSOLECOLORS.RESET);
                     }
                     break;
