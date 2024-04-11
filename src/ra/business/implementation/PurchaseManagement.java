@@ -88,7 +88,6 @@ public class PurchaseManagement
             //Hiển thị danh sách lịch chiếu và ghế ngồi
             displayShowTimeList(moviePurchased);
             //Chọn lịch chiếu và ghế ngồi
-            seatloop:
             while (true)
             {
                 //Chọn lịch chiếu, sau đó lấy ra danh sách ghế ngồi của phòng chiếu tương ứng
@@ -104,7 +103,7 @@ public class PurchaseManagement
                 {
                     System.out.println(CONSOLECOLORS.RED + "Bạn chưa chọn ghế ngồi. Bạn có muốn chọn lại không?" + CONSOLECOLORS.RESET);
                     System.out.println("1. Chọn lại lịch chiếu và ghế");
-                    System.out.println("2. Hủy mua vé phim này");
+                    System.out.println("2. Hủy mua vé phim");
                     System.out.println("Nhập lựa chọn của bạn");
                     byte continueChoice = InputMethods.nextByte();
                     switch (continueChoice)
@@ -112,7 +111,7 @@ public class PurchaseManagement
                         case 1:
                             continue;
                         case 2:
-                            break seatloop;
+                            return newTicket;
                         default:
                             System.out.println(CONSOLECOLORS.RED + CONSTANT.CHOICE_NOT_AVAI + CONSOLECOLORS.RESET);
                             System.out.println(CONSOLECOLORS.RED + "Vui lòng thực hiện lại thao tác chọn lịch chiếu" + CONSOLECOLORS.RESET);
