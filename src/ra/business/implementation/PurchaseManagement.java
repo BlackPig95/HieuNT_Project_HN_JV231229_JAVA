@@ -1,5 +1,6 @@
 package ra.business.implementation;
 
+import org.mindrot.jbcrypt.BCrypt;
 import ra.business.config.CONSOLECOLORS;
 import ra.business.config.CONSTANT;
 import ra.business.config.IOFile;
@@ -46,17 +47,7 @@ public class PurchaseManagement
             return;
         }
         displaySnackChoiceMenu();
-        //Gán danh sách mua hàng vào hóa đơn
-        customerReceipt.setPurchasedList(customerPurchaseList);
-        System.out.println("Dưới đây là thông tin hóa đơn của bạn:");
-        for (IPurchasable merchandise : customerPurchaseList)
-        {
-            System.out.println(merchandise.showBasicData());
-        }
-        System.out.println(CONSOLECOLORS.YELLOW
-                + "--------------------------------------------------------------------------------------"
-                + CONSOLECOLORS.RESET);
-        customerPurchaseList.clear();
+        makePayment(currentuser, customerReceipt, newTicket);
     }
 
     private void displaySnackChoiceMenu()
@@ -111,6 +102,7 @@ public class PurchaseManagement
                 //Dựa trên danh sách ghế ngồi, cho khách chọn các ghế muốn đặt
                 //Hiển thị lại danh sách ghế ngồi của phòng chiếu
                 displaySeatList(seatList, chosenShowTime);
+                System.out.println(CONSOLECOLORS.BLUE_BACKGROUND_BRIGHT + CONSOLECOLORS.BLACK_BOLD + "                        MÀN HÌNH                        " + CONSOLECOLORS.RESET);
                 Map<String, SEAT_STATUS> seatsChosen = chooseSeats(seatList, chosenShowTime);
                 //Nếu không có cái nào là CHOSEN => Khách chưa chọn ghế
                 if (!seatsChosen.containsValue(SEAT_STATUS.CHOSEN))
@@ -149,21 +141,22 @@ public class PurchaseManagement
             }
             //Nếu việc đặt vé thành công=> vé sẽ có Id => ngừng vòng lặp
             if (!newTicket.getTicketId().isBlank())
-            {   //Vào thời điểm hoàn tất đặt vé
-                //Set các ghế đã chọn thành Taken (Các ghế đang ở status CHOSEN trong map)
-                List<List<Seat>> seatList = newTicket.getShowTime().getRoom().getSeatList();
-                Map<String, SEAT_STATUS> seatMap = newTicket.getShowTime().getChosenSeatMap();
-                for (List<Seat> seatRow : seatList)
-                {
-                    for (Seat seat : seatRow)
-                    {//So sánh seatName và status để tìm ra ghế nào cần được set thành TAKEN
-                        if (seatMap.containsKey(seat.getSeatName()) && seatMap.get(seat.getSeatName()) == SEAT_STATUS.CHOSEN)
-                        {
-                            seat.setSeatStatus(SEAT_STATUS.TAKEN);
-                            seatMap.put(seat.getSeatName(), SEAT_STATUS.TAKEN);
-                        }
-                    }
-                }
+            {
+//                //Vào thời điểm hoàn tất đặt vé
+//                //Set các ghế đã chọn thành Taken (Các ghế đang ở status CHOSEN trong map)
+//                List<List<Seat>> seatList = newTicket.getShowTime().getRoom().getSeatList();
+//                Map<String, SEAT_STATUS> seatMap = newTicket.getShowTime().getChosenSeatMap();
+//                for (List<Seat> seatRow : seatList)
+//                {
+//                    for (Seat seat : seatRow)
+//                    {//So sánh seatName và status để tìm ra ghế nào cần được set thành TAKEN
+//                        if (seatMap.containsKey(seat.getSeatName()) && seatMap.get(seat.getSeatName()) == SEAT_STATUS.CHOSEN)
+//                        {
+//                            seat.setSeatStatus(SEAT_STATUS.TAKEN);
+//                            seatMap.put(seat.getSeatName(), SEAT_STATUS.TAKEN);
+//                        }
+//                    }
+//                }
                 break;
             }
         }
@@ -195,7 +188,7 @@ public class PurchaseManagement
             //list showTime của object moviePurchased
             System.out.println("Lịch số: " + i + ". " + getShowInfo(i - 1, moviePurchased));
             System.out.println("Danh sách ghế ngồi: (Màu đỏ là ghế đã có người đặt. " +
-                    "Màu tím là ghế bạn đã chọn)");
+                    "Màu tím nhạt là ghế bạn đã chọn)");
             //Hiển thị danh sách ghế ngồi tương ứng
             List<List<Seat>> seatList = moviePurchased.
                     getShowTimeFromId(showTimeList, moviePurchased.getShowTimeId().get(i - 1)).
@@ -301,6 +294,7 @@ public class PurchaseManagement
                         newSeatChosen.setSeatStatus(SEAT_STATUS.CHOSEN);
                         //Cập nhật danh sách ghế ngồi
                         displaySeatList(seatList, chosenShowTime);
+                        System.out.println(CONSOLECOLORS.BLUE_BACKGROUND_BRIGHT + CONSOLECOLORS.BLACK_BOLD + "                        MÀN HÌNH                        " + CONSOLECOLORS.RESET);
                         System.out.println(CONSOLECOLORS.GREEN + "Đã thêm ghế thành công" + CONSOLECOLORS.RESET);
                     } else if (newSeatChosen.getSeatStatus() == SEAT_STATUS.CHOSEN)
                     {
@@ -309,6 +303,7 @@ public class PurchaseManagement
                         newSeatChosen.setSeatStatus(SEAT_STATUS.AVAILABLE);
                         //Cập nhật danh sách ghế ngồi
                         displaySeatList(seatList, chosenShowTime);
+                        System.out.println(CONSOLECOLORS.BLUE_BACKGROUND_BRIGHT + CONSOLECOLORS.BLACK_BOLD + "                        MÀN HÌNH                        " + CONSOLECOLORS.RESET);
                         System.out.println(CONSOLECOLORS.GREEN_UNDERLINED + "Đã bỏ chọn ghế" + CONSOLECOLORS.RESET);
                     }
                     break;
@@ -376,6 +371,77 @@ public class PurchaseManagement
                 {
                     customerPurchaseList.remove(snackChosen);
                 }
+            }
+        }
+    }
+
+    private void makePayment(User currentuser, Receipt customerReceipt, Ticket newTicket)
+    {
+        //Gán danh sách mua hàng vào hóa đơn
+        customerReceipt.setPurchasedList(customerPurchaseList);
+        System.out.println("Dưới đây là thông tin hóa đơn của bạn:");
+        for (IPurchasable merchandise : customerPurchaseList)
+        {
+            System.out.println(merchandise.showBasicData());
+        }
+        System.out.println(CONSOLECOLORS.YELLOW
+                + "--------------------------------------------------------------------------------------"
+                + CONSOLECOLORS.RESET);
+        while (true)
+        {
+            System.out.println(CONSOLECOLORS.BLUE_BOLD + "Xác nhận thanh toán bằng cách nhập mật khẩu của bạn" + CONSOLECOLORS.RESET);
+            System.out.println(CONSOLECOLORS.RED + "Nhập chính xác 'esc' nếu bạn muốn hủy thanh toán" + CONSOLECOLORS.RESET);
+            String confirmPw = InputMethods.nextLine();
+            if (confirmPw.equals("esc"))
+            {
+                //Xóa danh sách các mặt hàng
+                customerPurchaseList.clear();
+                //Trong trường hợp vé bị hủy:
+                List<List<Seat>> seatList = newTicket.getShowTime().getRoom().getSeatList();
+                Map<String, SEAT_STATUS> seatMap = newTicket.getShowTime().getChosenSeatMap();
+                for (List<Seat> seatRow : seatList)
+                {
+                    for (Seat seat : seatRow)
+                    {   //So sánh seatName và status để tìm ra ghế nào đang ở CHOSEN thì remove khỏi map
+                        //Hủy đặt vé thì ghế sẽ thành AVAI
+                        if (seatMap.containsKey(seat.getSeatName()) && seatMap.get(seat.getSeatName()) == SEAT_STATUS.CHOSEN)
+                        {
+                            seatMap.remove(seat.getSeatName());
+                        }
+                    }
+                }
+                System.out.println(CONSOLECOLORS.RED + "Đã hủy đơn hàng" + CONSOLECOLORS.RESET);
+                return;
+            }
+            if (BCrypt.checkpw(confirmPw, currentuser.getPassword()))
+            {
+                //Xóa danh sách các mặt hàng
+                customerPurchaseList.clear();
+                //Vào thời điểm hoàn tất đặt vé
+                //Set các ghế đã chọn thành Taken (Các ghế đang ở status CHOSEN trong map)
+                List<List<Seat>> seatList = newTicket.getShowTime().getRoom().getSeatList();
+                Map<String, SEAT_STATUS> seatMap = newTicket.getShowTime().getChosenSeatMap();
+                for (List<Seat> seatRow : seatList)
+                {
+                    for (Seat seat : seatRow)
+                    {//So sánh seatName và status để tìm ra ghế nào cần được set thành TAKEN
+                        if (seatMap.containsKey(seat.getSeatName()) && seatMap.get(seat.getSeatName()) == SEAT_STATUS.CHOSEN)
+                        {
+                            seat.setSeatStatus(SEAT_STATUS.TAKEN);
+                            seatMap.put(seat.getSeatName(), SEAT_STATUS.TAKEN);
+                        }
+                    }
+                }
+                System.out.println(CONSOLECOLORS.YELLOW + CONSOLECOLORS.BLACK_BACKGROUND
+                        + "           THANH TOÁN THÀNH CÔNG          " + CONSOLECOLORS.RESET);
+                System.out.println(CONSOLECOLORS.YELLOW + CONSOLECOLORS.BLACK_BACKGROUND
+                        + "HÃY LƯU LẠI MÃ HÓA ĐƠN ĐỂ NHẬN VÉ TẠI QUẦY" + CONSOLECOLORS.RESET);
+                System.out.println(CONSOLECOLORS.YELLOW + CONSOLECOLORS.BLACK_BACKGROUND
+                        + "             CẢM ƠN QUÝ KHÁCH             " + CONSOLECOLORS.RESET);
+                return;
+            } else
+            {
+                System.out.println(CONSOLECOLORS.RED + "Mật khẩu chưa đúng" + CONSOLECOLORS.RESET);
             }
         }
     }
