@@ -1,8 +1,10 @@
 package ra.business.implementation;
 
+import ra.business.config.AdminPagination;
 import ra.business.config.CONSOLECOLORS;
 import ra.business.config.IOFile;
 import ra.business.config.InputMethods;
+import ra.business.design.IAdminPaginable;
 import ra.business.design.IDeletable;
 import ra.business.entity.purchase.Snack;
 
@@ -80,7 +82,7 @@ public class SnackManagement implements IDeletable
             return;
         }
         System.out.println("Danh sách các đồ ăn/ đồ uống hiện có:");
-        snackList.forEach(Snack::displayData);
+        AdminPagination.pagination(snackList);
     }
 
     @Override

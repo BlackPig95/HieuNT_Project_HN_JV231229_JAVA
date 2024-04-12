@@ -4,6 +4,7 @@ import ra.business.config.CONSOLECOLORS;
 import ra.business.config.CONSTANT;
 import ra.business.config.IOFile;
 import ra.business.config.InputMethods;
+import ra.business.design.IAdminPaginable;
 import ra.business.entity.enumclasses.SEAT_STATUS;
 
 import java.io.Serializable;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ShowTime implements Serializable
+public class ShowTime implements Serializable, IAdminPaginable
 {
     static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
     private String showTimeId;//String vì có thể có nhiều ngày chiếu khác nhau
@@ -45,6 +46,7 @@ public class ShowTime implements Serializable
         inputRoom(roomList);
     }
 
+    @Override
     public void displayData()
     {
         System.out.printf("Mã lịch chiếu: %s | Thời gian chiếu: %s | Phòng chiếu: %d \n",

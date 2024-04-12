@@ -1,5 +1,6 @@
 package ra.business.implementation;
 
+import ra.business.config.AdminPagination;
 import ra.business.config.CONSOLECOLORS;
 import ra.business.config.IOFile;
 import ra.business.config.InputMethods;
@@ -81,7 +82,7 @@ public class MovieCategoryManagement implements ICategoryDesign
             return;
         }
         System.out.println("Danh sách các thể loại hiện có:");
-        movieCategoryList.forEach(MovieCategory::displayData);
+        AdminPagination.pagination(movieCategoryList);
     }
 
     @Override

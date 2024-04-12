@@ -1,5 +1,6 @@
 package ra.business.implementation;
 
+import ra.business.config.AdminPagination;
 import ra.business.config.CONSOLECOLORS;
 import ra.business.config.IOFile;
 import ra.business.config.InputMethods;
@@ -89,9 +90,7 @@ public class ShowTimeManagement implements IDeletable
             return;
         }
         System.out.println("Danh sách các lịch chiếu hiện có:");
-        System.out.println(CONSOLECOLORS.YELLOW + "==================================================================================" + CONSOLECOLORS.RESET);
-        showTimeList.forEach(m -> m.displayData());
-        System.out.println(CONSOLECOLORS.YELLOW + "==================================================================================" + CONSOLECOLORS.RESET);
+        AdminPagination.pagination(showTimeList);
     }
 
     @Override

@@ -4,6 +4,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import ra.business.config.CONSOLECOLORS;
 import ra.business.config.CONSTANT;
 import ra.business.config.InputMethods;
+import ra.business.design.IAdminPaginable;
 import ra.business.entity.enumclasses.USER_ROLE;
 
 import java.io.InputStream;
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 
-public class User implements Serializable
+public class User implements Serializable, IAdminPaginable
 {
     private String userId;
     private String email;
@@ -172,13 +173,12 @@ public class User implements Serializable
         //UpdatedAt: LocalDate.now();
     }
 
+    @Override
     public void displayData()
     {
-        System.out.println(CONSOLECOLORS.YELLOW + "==================================================================================" + CONSOLECOLORS.RESET);
         System.out.printf("Mã người dùng: %s | Tên người dùng: %s \n", this.userId, this.fullName);
         System.out.printf("Số điện thoại: %s | Email: %s \n", String.format("0%d", this.phone), this.email);
         System.out.printf("Trạng thái: %s \n", this.status ? "Hoạt động" : "Bị khóa");
-        System.out.println(CONSOLECOLORS.YELLOW + "==================================================================================" + CONSOLECOLORS.RESET);
     }
 
     //Dùng cho giao diện user

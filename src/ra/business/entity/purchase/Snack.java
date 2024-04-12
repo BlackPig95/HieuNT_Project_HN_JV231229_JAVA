@@ -3,6 +3,7 @@ package ra.business.entity.purchase;
 import ra.business.config.CONSOLECOLORS;
 import ra.business.config.CONSTANT;
 import ra.business.config.InputMethods;
+import ra.business.design.IAdminPaginable;
 import ra.business.design.IPurchasable;
 import ra.business.entity.enumclasses.SNACK_TYPE;
 
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 
-public class Snack implements IPurchasable
+public class Snack implements IPurchasable, IAdminPaginable
 {
     private String snackId;
     private int price;
@@ -30,6 +31,7 @@ public class Snack implements IPurchasable
         }
     }
 
+    @Override
     public void displayData()
     {
         System.out.printf("Mã đồ ăn/ đồ uống: %s | Tên: %s | Giá bán: %s | Phân loại: %s\n",
@@ -115,6 +117,7 @@ public class Snack implements IPurchasable
             //SNACK_TYPE là enum nên có thể kiểm soát các chữ số đứng trước sao cho không bị trùng nhau
             this.snackType = Stream.of(SNACK_TYPE.values()).
                     filter(type -> type.getName().contains(String.valueOf(choice))).findFirst().orElse(null);
+            System.out.println("Đã chọn phân loại " + this.snackType.getName());
             break;
         }
     }

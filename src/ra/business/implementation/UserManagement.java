@@ -1,6 +1,7 @@
 package ra.business.implementation;
 
 import org.mindrot.jbcrypt.BCrypt;
+import ra.business.config.AdminPagination;
 import ra.business.config.CONSOLECOLORS;
 import ra.business.config.IOFile;
 import ra.business.config.InputMethods;
@@ -101,7 +102,7 @@ public class UserManagement implements IUserDesign
     public void displayAllItem()
     {
         System.out.println("Danh sách người dùng hiện tại");
-        userList.forEach(u -> u.displayData());
+        AdminPagination.pagination(userList);
     }
 
     @Override

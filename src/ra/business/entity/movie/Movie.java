@@ -3,6 +3,7 @@ package ra.business.entity.movie;
 import ra.business.config.CONSOLECOLORS;
 import ra.business.config.CONSTANT;
 import ra.business.config.InputMethods;
+import ra.business.design.IAdminPaginable;
 import ra.business.entity.category.MovieCategory;
 
 import java.io.Serializable;
@@ -121,6 +122,8 @@ public class Movie implements Serializable
         return onShowTimeList;
     }
 
+    //showTimeList: List quản lý các showTime
+    //_showTimeId: mã id của showTime cần tìm
     public ShowTime getShowTimeFromId(List<ShowTime> showTimeList, String _showTimeId)
     {
         return showTimeList.stream().filter(s -> s.getShowTimeId().equals(_showTimeId)).findFirst().orElse(null);

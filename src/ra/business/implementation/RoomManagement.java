@@ -1,5 +1,6 @@
 package ra.business.implementation;
 
+import ra.business.config.AdminPagination;
 import ra.business.config.CONSOLECOLORS;
 import ra.business.config.IOFile;
 import ra.business.config.InputMethods;
@@ -82,7 +83,7 @@ public class RoomManagement implements IDeletable
             return;
         }
         System.out.println("Danh sách các phòng chiếu hiện có:");
-        roomList.forEach(r -> r.displayData());
+        AdminPagination.pagination(roomList);
     }
 
     @Override

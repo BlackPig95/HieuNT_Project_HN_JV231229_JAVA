@@ -3,12 +3,13 @@ package ra.business.entity.category;
 import ra.business.config.CONSOLECOLORS;
 import ra.business.config.CONSTANT;
 import ra.business.config.InputMethods;
+import ra.business.design.IAdminPaginable;
 
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
 
-public class MovieCategory implements Serializable
+public class MovieCategory implements Serializable, IAdminPaginable
 {
     private String categoryId;
     private String categoryName;
@@ -35,12 +36,11 @@ public class MovieCategory implements Serializable
         inputCategoryDescription();
     }
 
+    @Override
     public void displayData()
     {
-        System.out.println(CONSOLECOLORS.YELLOW + "================================================================================" + CONSOLECOLORS.RESET);
         System.out.printf("Mã số: %s | Tên thể loại: %s | Mô tả: %s\n",
                 this.categoryId, this.categoryName, this.description);
-        System.out.println(CONSOLECOLORS.YELLOW + "================================================================================" + CONSOLECOLORS.RESET);
     }
 
     private void inputCategoryName(List<MovieCategory> movieCategoryList, boolean isAdding)

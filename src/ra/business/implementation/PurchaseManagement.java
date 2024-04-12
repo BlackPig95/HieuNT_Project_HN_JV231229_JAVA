@@ -142,21 +142,6 @@ public class PurchaseManagement
             //Nếu việc đặt vé thành công=> vé sẽ có Id => ngừng vòng lặp
             if (!newTicket.getTicketId().isBlank())
             {
-//                //Vào thời điểm hoàn tất đặt vé
-//                //Set các ghế đã chọn thành Taken (Các ghế đang ở status CHOSEN trong map)
-//                List<List<Seat>> seatList = newTicket.getShowTime().getRoom().getSeatList();
-//                Map<String, SEAT_STATUS> seatMap = newTicket.getShowTime().getChosenSeatMap();
-//                for (List<Seat> seatRow : seatList)
-//                {
-//                    for (Seat seat : seatRow)
-//                    {//So sánh seatName và status để tìm ra ghế nào cần được set thành TAKEN
-//                        if (seatMap.containsKey(seat.getSeatName()) && seatMap.get(seat.getSeatName()) == SEAT_STATUS.CHOSEN)
-//                        {
-//                            seat.setSeatStatus(SEAT_STATUS.TAKEN);
-//                            seatMap.put(seat.getSeatName(), SEAT_STATUS.TAKEN);
-//                        }
-//                    }
-//                }
                 break;
             }
         }
@@ -171,6 +156,8 @@ public class PurchaseManagement
         return movieList.stream().filter(m -> m.getMovieName().equals(movieName)).findFirst().orElse(null);
     }
 
+    //moviePurchased: Từ phim đã chọn có thể lấy được danh sách các showTime của movie này
+    //Dùng showIndex để lấy ra showTime tương ứng
     private String getShowInfo(int showIndex, Movie moviePurchased)
     {   //Từ phim đã chọn, lấy ra thông tin lịch chiếu tương ứng
         ShowTime currentShow = moviePurchased.getShowTimeFromId(showTimeList, moviePurchased.getShowTimeId().get(showIndex));
@@ -188,7 +175,7 @@ public class PurchaseManagement
             //list showTime của object moviePurchased
             System.out.println("Lịch số: " + i + ". " + getShowInfo(i - 1, moviePurchased));
             System.out.println("Danh sách ghế ngồi: (Màu đỏ là ghế đã có người đặt. " +
-                    "Màu tím nhạt là ghế bạn đã chọn)");
+                    "Màu tím là ghế bạn đã chọn)");
             //Hiển thị danh sách ghế ngồi tương ứng
             List<List<Seat>> seatList = moviePurchased.
                     getShowTimeFromId(showTimeList, moviePurchased.getShowTimeId().get(i - 1)).

@@ -2,12 +2,13 @@ package ra.business.entity.movie;
 
 import ra.business.config.CONSOLECOLORS;
 import ra.business.config.InputMethods;
+import ra.business.design.IAdminPaginable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Room implements Serializable
+public class Room implements Serializable, IAdminPaginable
 {
     private byte roomId;
     private List<List<Seat>> seatList;
@@ -49,9 +50,10 @@ public class Room implements Serializable
         inputRoomSeat();
     }
 
+    @Override
     public void displayData()
     {
-        System.out.printf("Mã phòng chiếu: %d | Số lượng ghế ngồi: %d \n", this.roomId, countSeat());
+        System.out.printf("Phòng chiếu số: %d | Số lượng ghế ngồi: %d \n", this.roomId, countSeat());
     }
 
     private void inputRoomId(List<Room> roomList, boolean isAdding)

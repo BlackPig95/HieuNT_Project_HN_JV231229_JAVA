@@ -70,7 +70,7 @@ public class UserMenu
             {
                 case 1:
                     System.out.println("Thông tin của bạn:");
-                    AdminMenu.userManagement.findItem(currentUser).displayBasicData();
+                    AdminMenu.userManagement.findItem(currentUser).displayData();
                     System.out.println(CONSOLECOLORS.YELLOW + "--------------------------------------------------------------" + CONSOLECOLORS.RESET);
                     break;
                 case 2:
