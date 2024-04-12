@@ -81,10 +81,73 @@ public class MovieManagement implements IDeletable
             System.out.println(CONSOLECOLORS.RED + "Không tìm thấy phim" + CONSOLECOLORS.RESET);
             return;
         }
-        System.out.println("Mời nhập thông tin mới cho phim");
-        movieList.get(indexUpdate).inputData(movieList, movieCategoryList, showTimeList, false);
-        System.out.println(CONSOLECOLORS.GREEN + "Cập nhật phim thành công" + CONSOLECOLORS.RESET);
-        IOFile.writeToFile(IOFile.MOVIE_PATH, movieList);
+        Movie updatedMovie = movieList.get(indexUpdate);
+        while (true)
+        {
+            System.out.println("Đang cập nhật thông tin cho bộ phim: " + movieList.get(indexUpdate).getMovieName());
+            System.out.println("1. Cập nhật tên phim");
+            System.out.println("2. Cập nhật mô tả về phim");
+            System.out.println("3. Cập nhật trailer cho phim");
+            System.out.println("4. Cập nhật poster cho phim");
+            System.out.println("5. Cập nhật trạng thái tâm điểm của phim");
+            System.out.println("6. Thay đổi danh mục thể loại của phim");
+            System.out.println("7. Thay đổi mức phân loại của phim");
+            System.out.println("8. Thay đổi thời lượng phim");
+            System.out.println("9. Cập nhật lịch chiếu");
+            System.out.println("10. Cập nhật tất cả");
+            System.out.println("0. Thoát");
+            byte choice = InputMethods.nextByte();
+            switch (choice)
+            {
+                case 1:
+                    updatedMovie.inputMovieName(movieList, false);
+                    System.out.println(CONSOLECOLORS.GREEN + "Cập nhật phim thành công" + CONSOLECOLORS.RESET);
+                    break;
+                case 2:
+                    updatedMovie.inputMovieDescription();
+                    System.out.println(CONSOLECOLORS.GREEN + "Cập nhật phim thành công" + CONSOLECOLORS.RESET);
+                    break;
+                case 3:
+                    updatedMovie.inputMovieTrailer();
+                    System.out.println(CONSOLECOLORS.GREEN + "Cập nhật phim thành công" + CONSOLECOLORS.RESET);
+                    break;
+                case 4:
+                    updatedMovie.inputMovieImage();
+                    System.out.println(CONSOLECOLORS.GREEN + "Cập nhật phim thành công" + CONSOLECOLORS.RESET);
+                    break;
+                case 5:
+                    updatedMovie.setSpotlight(!updatedMovie.isSpotlight());
+                    System.out.println(CONSOLECOLORS.GREEN + "Cập nhật phim thành công" + CONSOLECOLORS.RESET);
+                    break;
+                case 6:
+                    updatedMovie.inputCategory(movieCategoryList);
+                    System.out.println(CONSOLECOLORS.GREEN + "Cập nhật phim thành công" + CONSOLECOLORS.RESET);
+                    break;
+                case 7:
+                    updatedMovie.inputMovieRating();
+                    System.out.println(CONSOLECOLORS.GREEN + "Cập nhật phim thành công" + CONSOLECOLORS.RESET);
+                    break;
+                case 8:
+                    updatedMovie.inputMovieDuration();
+                    System.out.println(CONSOLECOLORS.GREEN + "Cập nhật phim thành công" + CONSOLECOLORS.RESET);
+                    break;
+                case 9:
+                    updatedMovie.inputMovieShowTime(showTimeList, movieList);
+                    System.out.println(CONSOLECOLORS.GREEN + "Cập nhật phim thành công" + CONSOLECOLORS.RESET);
+                    break;
+                case 10:
+                    System.out.println("Mời nhập thông tin mới cho phim");
+                    updatedMovie.inputData(movieList, movieCategoryList, showTimeList, false);
+                    System.out.println(CONSOLECOLORS.GREEN + "Cập nhật phim thành công" + CONSOLECOLORS.RESET);
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println(CONSOLECOLORS.RED + CONSTANT.CHOICE_NOT_AVAI + CONSOLECOLORS.RESET);
+                    break;
+            }
+            IOFile.writeToFile(IOFile.MOVIE_PATH, movieList);
+        }
     }
 
     @Override

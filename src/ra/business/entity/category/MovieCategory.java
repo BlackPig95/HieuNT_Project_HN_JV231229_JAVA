@@ -44,7 +44,7 @@ public class MovieCategory implements Serializable, IAdminPaginable
         System.out.println("────────────────────────────────────────────────────────────────────────────────────");
     }
 
-    private void inputCategoryName(List<MovieCategory> movieCategoryList, boolean isAdding)
+    public void inputCategoryName(List<MovieCategory> movieCategoryList, boolean isAdding)
     {
         List<String> categoryName = movieCategoryList.stream().map(c -> c.categoryName).toList();
         while (true)
@@ -78,7 +78,7 @@ public class MovieCategory implements Serializable, IAdminPaginable
         }
     }
 
-    private void inputCategoryDescription()
+    public void inputCategoryDescription()
     {
         System.out.println("Nhập mô tả về thể loại này");
         this.description = InputMethods.nextLine();

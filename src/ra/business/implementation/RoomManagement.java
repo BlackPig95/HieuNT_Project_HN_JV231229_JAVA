@@ -1,9 +1,6 @@
 package ra.business.implementation;
 
-import ra.business.config.AdminPagination;
-import ra.business.config.CONSOLECOLORS;
-import ra.business.config.IOFile;
-import ra.business.config.InputMethods;
+import ra.business.config.*;
 import ra.business.design.IDeletable;
 import ra.business.entity.movie.Room;
 import ra.business.entity.user.User;
@@ -55,10 +52,37 @@ public class RoomManagement implements IDeletable
             System.out.println(CONSOLECOLORS.RED + "Không tìm thấy phòng chiếu" + CONSOLECOLORS.RESET);
             return;
         }
-        System.out.println("Mời nhập thông tin mới cho phòng chiếu");
-        roomList.get(indexUpdate).inputData(roomList, false);
-        System.out.println(CONSOLECOLORS.GREEN + "Cập nhật phòng chiếu thành công" + CONSOLECOLORS.RESET);
-        IOFile.writeToFile(IOFile.ROOM_PATH, roomList);
+        while (true)
+        {
+            System.out.println("Đang cập nhật thông tin của phòng chiếu số: " + roomList.get(indexUpdate).getRoomId());
+            System.out.println("1. Cập nhật mã số phòng");
+            System.out.println("2. Cập nhật số lượng ghế trong phòng");
+            System.out.println("3. Cập nhật tất cả thông tin");
+            System.out.println("0. Thoát");
+            byte choice = InputMethods.nextByte();
+            switch (choice)
+            {
+                case 1:
+                    roomList.get(indexUpdate).inputRoomId(roomList, false);
+                    System.out.println(CONSOLECOLORS.GREEN + "Cập nhật thông tin phòng chiếu thành công" + CONSOLECOLORS.RESET);
+                    break;
+                case 2:
+                    roomList.get(indexUpdate).inputRoomSeat();
+                    System.out.println(CONSOLECOLORS.GREEN + "Cập nhật thông tin phòng chiếu thành công" + CONSOLECOLORS.RESET);
+                    break;
+                case 3:
+                    System.out.println("Mời nhập thông tin mới cho phòng chiếu");
+                    roomList.get(indexUpdate).inputData(roomList, false);
+                    System.out.println(CONSOLECOLORS.GREEN + "Cập nhật thông tin phòng chiếu thành công" + CONSOLECOLORS.RESET);
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println(CONSOLECOLORS.RED + CONSTANT.CHOICE_NOT_AVAI + CONSOLECOLORS.RESET);
+                    break;
+            }
+            IOFile.writeToFile(IOFile.ROOM_PATH, roomList);
+        }
     }
 
     @Override

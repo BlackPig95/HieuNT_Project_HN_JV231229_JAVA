@@ -54,7 +54,7 @@ public class ShowTime implements Serializable, IAdminPaginable
         System.out.println("────────────────────────────────────────────────────────────────────────────────────");
     }
 
-    private void inputShowTimeId(List<ShowTime> showTimeList, boolean isAdding)
+    public void inputShowTimeId(List<ShowTime> showTimeList, boolean isAdding)
     {
         while (true)
         {
@@ -79,7 +79,7 @@ public class ShowTime implements Serializable, IAdminPaginable
         }
     }
 
-    private void inputOnAirTime()
+    public void inputOnAirTime()
     {
         while (true)
         {
@@ -96,7 +96,7 @@ public class ShowTime implements Serializable, IAdminPaginable
         }
     }
 
-    private void inputRoom(List<Room> roomList)
+    public void inputRoom(List<Room> roomList)
     {
         System.out.println("Danh sách các phòng chiếu hiện có:");
         roomList.forEach(r -> r.displayData());

@@ -71,7 +71,7 @@ public class Snack implements IPurchasable, IAdminPaginable
         }
     }
 
-    private void inputSnackName(List<Snack> snackList, boolean isAdding)
+    public void inputSnackName(List<Snack> snackList, boolean isAdding)
     {
         while (true)
         {
@@ -97,7 +97,7 @@ public class Snack implements IPurchasable, IAdminPaginable
         }
     }
 
-    private void inputSnackType()
+    public void inputSnackType()
     {
         while (true)
         {
@@ -118,12 +118,12 @@ public class Snack implements IPurchasable, IAdminPaginable
             //SNACK_TYPE là enum nên có thể kiểm soát các chữ số đứng trước sao cho không bị trùng nhau
             this.snackType = Stream.of(SNACK_TYPE.values()).
                     filter(type -> type.getName().contains(String.valueOf(choice))).findFirst().orElse(null);
-            System.out.println("Đã chọn phân loại " + this.snackType.getName());
+            System.out.println("Đã chọn phân loại " + this.snackType.getName().substring(2));
             break;
         }
     }
 
-    private void inputSnackPrice()
+    public void inputSnackPrice()
     {
         while (true)
         {

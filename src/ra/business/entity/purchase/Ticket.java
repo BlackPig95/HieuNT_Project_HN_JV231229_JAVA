@@ -14,7 +14,7 @@ import java.util.Locale;
 public class Ticket implements IPurchasable
 {
     private String ticketId = "";
-    private int price = 55000;
+    private int price = 65000;
     private Movie movie;
     private ShowTime showTime;
     private List<String> seatNameList;

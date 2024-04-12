@@ -57,7 +57,7 @@ public class Room implements Serializable, IAdminPaginable
         System.out.println("────────────────────────────────────────────────────────────────────────────────────");
     }
 
-    private void inputRoomId(List<Room> roomList, boolean isAdding)
+    public void inputRoomId(List<Room> roomList, boolean isAdding)
     {
         while (true)
         {
@@ -86,7 +86,7 @@ public class Room implements Serializable, IAdminPaginable
         }
     }
 
-    private void inputRoomSeat()
+    public void inputRoomSeat()
     {
         while (true)
         {

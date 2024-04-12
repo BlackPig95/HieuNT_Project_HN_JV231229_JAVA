@@ -89,6 +89,7 @@ public class Movie implements Serializable
         System.out.printf("Lịch chiếu: %s \n", !onShowTimeList.isEmpty() ? String.valueOf(onShowTimeList) : "Sắp ra mắt");
         System.out.printf("Trailer: %s | Poster: %s | Phim tâm điểm: %s\n"
                 , this.trailerUrl, this.imageUrl, this.isSpotlight ? "Đúng" : "Không phải");
+        System.out.println("Mô tả: " + this.description);
         System.out.println(CONSOLECOLORS.YELLOW + "=====================================================================================================================" + CONSOLECOLORS.RESET);
     }
 
@@ -104,6 +105,7 @@ public class Movie implements Serializable
         System.out.printf("Tên phim: %s | Thời lượng: %s | Phân loại: %s \n",
                 this.movieName, this.duration, this.movieRating);
         System.out.printf("Lịch chiếu: %s \n", !onShowTimeList.isEmpty() ? String.valueOf(onShowTimeList) : "Sắp ra mắt");
+        System.out.println("Mô tả: " + this.description);
         System.out.println(CONSOLECOLORS.YELLOW + "=====================================================================================================================" + CONSOLECOLORS.RESET);
     }
 
@@ -129,7 +131,7 @@ public class Movie implements Serializable
         return showTimeList.stream().filter(s -> s.getShowTimeId().equals(_showTimeId)).findFirst().orElse(null);
     }
 
-    private void inputMovieName(List<Movie> movieList, boolean isAdding)
+    public void inputMovieName(List<Movie> movieList, boolean isAdding)
     {
         while (true)
         {
@@ -161,31 +163,31 @@ public class Movie implements Serializable
         }
     }
 
-    private void inputMovieDescription()
+    public void inputMovieDescription()
     {
         System.out.println("Nhập mô tả cho bộ phim");
         this.description = InputMethods.nextLine();
     }
 
-    private void inputMovieTrailer()
+    public void inputMovieTrailer()
     {
         System.out.println("Nhập đường dẫn trailer của phim");
         this.trailerUrl = InputMethods.nextLine();
     }
 
-    private void inputMovieImage()
+    public void inputMovieImage()
     {
         System.out.println("Nhập đường dẫn cho poster của phim");
         this.imageUrl = InputMethods.nextLine();
     }
 
-    private void inputMovieSpotlight()
+    public void inputMovieSpotlight()
     {
         System.out.println("Bộ phim này có phải phim hot không? (Nhập chính xác true hoặc false)");
         this.isSpotlight = InputMethods.nextBoolean();
     }
 
-    private void inputCategory(List<MovieCategory> movieCategoryList)
+    public void inputCategory(List<MovieCategory> movieCategoryList)
     {
         System.out.println("Danh sách các thể loại phim hiện có:");
         movieCategoryList.forEach(m -> m.displayData());
@@ -205,7 +207,7 @@ public class Movie implements Serializable
         }
     }
 
-    private void inputMovieRating()
+    public void inputMovieRating()
     {
         while (true)
         {
@@ -232,7 +234,7 @@ public class Movie implements Serializable
         }
     }
 
-    private void inputMovieDuration()
+    public void inputMovieDuration()
     {
         System.out.println("Thời lượng của bộ phim này:");
         while (true)
@@ -260,7 +262,7 @@ public class Movie implements Serializable
         }
     }
 
-    private void inputMovieShowTime(List<ShowTime> showTimeList, List<Movie> movieList)
+    public void inputMovieShowTime(List<ShowTime> showTimeList, List<Movie> movieList)
     {
         outer:
         while (true)

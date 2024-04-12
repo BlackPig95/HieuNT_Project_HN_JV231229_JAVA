@@ -1,9 +1,6 @@
 package ra.business.implementation;
 
-import ra.business.config.AdminPagination;
-import ra.business.config.CONSOLECOLORS;
-import ra.business.config.IOFile;
-import ra.business.config.InputMethods;
+import ra.business.config.*;
 import ra.business.design.IDeletable;
 import ra.business.entity.movie.Movie;
 import ra.business.entity.movie.ShowTime;
@@ -62,10 +59,42 @@ public class ShowTimeManagement implements IDeletable
             System.out.println(CONSOLECOLORS.RED + "Không tìm thấy lịch chiếu" + CONSOLECOLORS.RESET);
             return;
         }
-        System.out.println("Mời nhập thông tin mới cho lịch chiếu");
-        showTimeList.get(indexUpdate).inputData(roomList, showTimeList, false);
-        System.out.println(CONSOLECOLORS.GREEN + "Cập nhật lịch chiếu thành công" + CONSOLECOLORS.RESET);
-        IOFile.writeToFile(IOFile.SHOW_TIME_PATH, showTimeList);
+        while (true)
+        {
+            System.out.println("Đang cập nhật thông tin cho lịch chiếu: " + showTimeList.get(indexUpdate).getShowTimeId());
+            System.out.println("1. Đổi mã lịch chiếu");
+            System.out.println("2. Đổi giờ chiếu");
+            System.out.println("3. Đổi phòng chiếu");
+            System.out.println("4. Cập nhật tất cả thông tin");
+            System.out.println("0. Thoát");
+            byte choice = InputMethods.nextByte();
+            switch (choice)
+            {
+                case 1:
+                    showTimeList.get(indexUpdate).inputShowTimeId(showTimeList, false);
+                    System.out.println(CONSOLECOLORS.GREEN + "Cập nhật lịch chiếu thành công" + CONSOLECOLORS.RESET);
+                    break;
+                case 2:
+                    showTimeList.get(indexUpdate).inputOnAirTime();
+                    System.out.println(CONSOLECOLORS.GREEN + "Cập nhật lịch chiếu thành công" + CONSOLECOLORS.RESET);
+                    break;
+                case 3:
+                    showTimeList.get(indexUpdate).inputRoom(roomList);
+                    System.out.println(CONSOLECOLORS.GREEN + "Cập nhật lịch chiếu thành công" + CONSOLECOLORS.RESET);
+                    break;
+                case 4:
+                    System.out.println("Mời nhập thông tin mới cho lịch chiếu");
+                    showTimeList.get(indexUpdate).inputData(roomList, showTimeList, false);
+                    System.out.println(CONSOLECOLORS.GREEN + "Cập nhật lịch chiếu thành công" + CONSOLECOLORS.RESET);
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println(CONSOLECOLORS.RED + CONSTANT.CHOICE_NOT_AVAI + CONSOLECOLORS.RESET);
+                    break;
+            }
+            IOFile.writeToFile(IOFile.SHOW_TIME_PATH, showTimeList);
+        }
     }
 
     @Override

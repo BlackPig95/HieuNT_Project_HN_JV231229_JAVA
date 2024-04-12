@@ -1,9 +1,6 @@
 package ra.business.implementation;
 
-import ra.business.config.AdminPagination;
-import ra.business.config.CONSOLECOLORS;
-import ra.business.config.IOFile;
-import ra.business.config.InputMethods;
+import ra.business.config.*;
 import ra.business.design.ICategoryDesign;
 import ra.business.entity.category.MovieCategory;
 import ra.business.entity.user.User;
@@ -55,10 +52,38 @@ public class MovieCategoryManagement implements ICategoryDesign
             System.out.println(CONSOLECOLORS.RED + "Không tìm thấy thể loại" + CONSOLECOLORS.RESET);
             return;
         }
-        System.out.println("Mời nhập thông tin mới cho thể loại");
-        movieCategoryList.get(indexUpdate).inputData(movieCategoryList, false);
-        System.out.println(CONSOLECOLORS.GREEN + "Cập nhật thể loại thành công" + CONSOLECOLORS.RESET);
-        IOFile.writeToFile(IOFile.MOVIE_CATEGORY_PATH, movieCategoryList);
+        while (true)
+        {
+            System.out.println("Đang cập nhật thông tin cho thể loại: " + movieCategoryList.get(indexUpdate).getCategoryName());
+            System.out.println("1. Cập nhật tên thể loại phim");
+            System.out.println("2. Cập nhật mô tả về thể loại phim");
+            System.out.println("3. Cập nhật tất cả thông tin");
+            System.out.println("0. Thoát");
+            System.out.println(CONSOLECOLORS.BLUE + "Nhập thao tác muốn thực hiện theo các số ở trên" + CONSOLECOLORS.RESET);
+            byte choice = InputMethods.nextByte();
+            switch (choice)
+            {
+                case 1:
+                    movieCategoryList.get(indexUpdate).inputCategoryName(movieCategoryList, false);
+                    System.out.println(CONSOLECOLORS.GREEN + "Cập nhật tên thể loại thành công" + CONSOLECOLORS.RESET);
+                    break;
+                case 2:
+                    movieCategoryList.get(indexUpdate).inputCategoryDescription();
+                    System.out.println(CONSOLECOLORS.GREEN + "Cập nhật mô tả thể loại thành công" + CONSOLECOLORS.RESET);
+                    break;
+                case 3:
+                    System.out.println("Mời nhập thông tin mới cho thể loại");
+                    movieCategoryList.get(indexUpdate).inputData(movieCategoryList, false);
+                    System.out.println(CONSOLECOLORS.GREEN + "Cập nhật thể loại thành công" + CONSOLECOLORS.RESET);
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println(CONSOLECOLORS.RED + CONSTANT.CHOICE_NOT_AVAI + CONSOLECOLORS.RESET);
+                    break;
+            }
+            IOFile.writeToFile(IOFile.MOVIE_CATEGORY_PATH, movieCategoryList);
+        }
     }
 
     @Override

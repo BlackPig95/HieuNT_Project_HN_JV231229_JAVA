@@ -1,9 +1,6 @@
 package ra.business.implementation;
 
-import ra.business.config.AdminPagination;
-import ra.business.config.CONSOLECOLORS;
-import ra.business.config.IOFile;
-import ra.business.config.InputMethods;
+import ra.business.config.*;
 import ra.business.design.IDeletable;
 import ra.business.entity.purchase.Snack;
 import ra.business.entity.user.User;
@@ -11,6 +8,8 @@ import ra.business.entity.user.User;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import static ra.business.implementation.RoomManagement.roomList;
 
 
 public class SnackManagement implements IDeletable
@@ -54,10 +53,43 @@ public class SnackManagement implements IDeletable
             System.out.println(CONSOLECOLORS.RED + "Không tìm thấy đồ ăn/ đồ uống" + CONSOLECOLORS.RESET);
             return;
         }
-        System.out.println("Mời nhập thông tin mới cho đồ ăn/ đồ uống này");
-        snackList.get(indexUpdate).inputData(snackList, false);
-        System.out.println(CONSOLECOLORS.GREEN + "Cập nhật thành công" + CONSOLECOLORS.RESET);
-        IOFile.writeToFile(IOFile.SNACK_PATH, snackList);
+        Snack updatedSnack = snackList.get(indexUpdate);
+        while (true)
+        {
+            System.out.println("Đang cập nhật thông tin cho: " + updatedSnack.getSnackName());
+            System.out.println("1. Đổi phân loại của đồ ăn/ đồ uống");
+            System.out.println("2. Đổi tên");
+            System.out.println("3. Đổi giá bán");
+            System.out.println("4. Cập nhật tất cả thông tin");
+            System.out.println("0. Thoát");
+            byte choice = InputMethods.nextByte();
+            switch (choice)
+            {
+                case 1:
+                    updatedSnack.inputSnackType();
+                    System.out.println(CONSOLECOLORS.GREEN + "Cập nhật thành công" + CONSOLECOLORS.RESET);
+                    break;
+                case 2:
+                    updatedSnack.inputSnackName(snackList, false);
+                    System.out.println(CONSOLECOLORS.GREEN + "Cập nhật thành công" + CONSOLECOLORS.RESET);
+                    break;
+                case 3:
+                    updatedSnack.inputSnackPrice();
+                    System.out.println(CONSOLECOLORS.GREEN + "Cập nhật thành công" + CONSOLECOLORS.RESET);
+                    break;
+                case 4:
+                    System.out.println("Mời nhập thông tin mới cho đồ ăn/ đồ uống này");
+                    updatedSnack.inputData(snackList, false);
+                    System.out.println(CONSOLECOLORS.GREEN + "Cập nhật thành công" + CONSOLECOLORS.RESET);
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println(CONSOLECOLORS.RED + CONSTANT.CHOICE_NOT_AVAI + CONSOLECOLORS.RESET);
+                    break;
+            }
+            IOFile.writeToFile(IOFile.SNACK_PATH, snackList);
+        }
     }
 
     @Override
