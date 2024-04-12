@@ -94,8 +94,8 @@ public class UserManagement implements IUserDesign
     //Overload method dùng cho giao diện user
     @Override
     public User findItem(User userToSearch)
-    {
-        return userList.stream().filter(u -> u == userToSearch).findFirst().orElse(null);
+    {   //Check qua Id để tránh null pointer vì user được đọc từ file khác với user truyền vào
+        return userList.stream().filter(u -> u.getUserId().equals(userToSearch.getUserId())).findFirst().orElse(null);
     }
 
     @Override
