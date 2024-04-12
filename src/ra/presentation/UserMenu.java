@@ -16,13 +16,19 @@ public class UserMenu
         while (true)
         {
             String menuText = """
-                    ********************CHÀO MỪNG%s********************
-                    1. Mua vé
-                    2. Tìm kiếm phim
-                    3. Hiển thị danh sách phim
-                    4. Cài đặt thông tin cá nhân
-                    0. Đăng xuất""";
+                    ┏─────────────────────────────────────────────────────────────────┓
+                    ┃                     CHÀO MỪNG%-35s┃ 
+                    ┃ 1. Mua vé                                                       ┃
+                    ┃ 2. Tìm kiếm phim                                                ┃ 
+                    ┃ 3. Hiển thị danh sách phim                                      ┃
+                    ┃ 4. Cài đặt thông tin cá nhân                                    ┃
+                    ┃ 9. Thoát khỏi trang                                             ┃
+                    ┃ 0. Đăng xuất                                                    ┃
+                    ┗─────────────────────────────────────────────────────────────────┛
+                    """;
+            System.out.println(CONSOLECOLORS.YELLOW_BOLD_BRIGHT);
             System.out.println(String.format(menuText, currentUser == null ? "" : " " + currentUser.getFullName().toUpperCase()));
+            System.out.print(CONSOLECOLORS.RESET);
             System.out.println("Hãy nhập lựa chọn theo danh sách ở trên");
             byte choice = InputMethods.nextByte();
             switch (choice)
@@ -39,6 +45,8 @@ public class UserMenu
                 case 4:
                     displayPersonalInfoMenu(currentUser);
                     break;
+                case 9:
+                    System.exit(0);
                 case 0:
                     //JAVA chỉ có pass by sharing => set null ở đây sẽ không ảnh hưởng đến user được truyền vào
                     currentUser = null;
@@ -56,13 +64,18 @@ public class UserMenu
     {
         while (true)
         {
-            System.out.println("""
-                    ********************CÀI ĐẶT********************
-                    1. Xem thông tin cá nhân
-                    2. Cập nhật thông tin cá nhân
-                    3. Đổi mật khẩu
-                    0. Quay lại
-                    """);
+            System.out.println(CONSOLECOLORS.YELLOW_BOLD_BRIGHT);
+            System.out.print("""
+                    ┏────────────────────────────────────────────────────────────┓\s
+                    ┃  ======================  CÀI ĐẶT  =======================  ┃\s
+                    ┃  1. Xem thông tin cá                                       ┃\s
+                    ┃  2. Cập nhật thông tin cá                                  ┃\s
+                    ┃  3. Đổi mật khẩu                                           ┃\s
+                    ┃  9. Thoát khỏi trang                                       ┃\s
+                    ┃  0. Quay lại                                               ┃  \s
+                    ┗────────────────────────────────────────────────────────────┛ 	                  \s
+                      """);
+            System.out.print(CONSOLECOLORS.RESET);
             System.out.println("Hãy nhập lựa chọn theo danh sách ở trên");
             byte choice = InputMethods.nextByte();
             switch (choice)
@@ -78,6 +91,8 @@ public class UserMenu
                 case 3:
                     AdminMenu.userManagement.changePassword(currentUser);
                     break;
+                case 9:
+                    System.exit(0);
                 case 0:
                     return;
                 default:
@@ -91,13 +106,18 @@ public class UserMenu
     {
         while (true)
         {
-            System.out.println("""
-                    ********************CHỈNH SỬA THÔNG TIN********************
-                    1. Cập nhật tên của bạn
-                    2. Cập nhật email
-                    3. Cập nhật số điện thoại
-                    0. Quay lại
-                    """);
+            System.out.println(CONSOLECOLORS.YELLOW_BOLD_BRIGHT);
+            System.out.print("""
+                    ┏────────────────────────────────────────────────────────────┓\s
+                    ┃  ================  CHỈNH SỬA THÔNG TIN  =================  ┃\s
+                    ┃  1. Cập nhật tên của bạn                                   ┃\s
+                    ┃  2. Cập nhật email                                         ┃\s
+                    ┃  3. Cập nhật số điện thoại                                 ┃\s
+                    ┃  9. Thoát khỏi trang                                       ┃\s
+                    ┃  0. Quay lại                                               ┃  \s
+                    ┗────────────────────────────────────────────────────────────┛ 	                  \s
+                      """);
+            System.out.print(CONSOLECOLORS.RESET);
             System.out.println("Hãy nhập lựa chọn theo danh sách ở trên");
             byte choice = InputMethods.nextByte();
             switch (choice)
@@ -115,6 +135,8 @@ public class UserMenu
                     AdminMenu.userManagement.updateUserPhone(currentUser);
                     System.out.println(CONSOLECOLORS.GREEN + "Cập nhật thành công" + CONSOLECOLORS.RESET);
                     break;
+                case 9:
+                    System.exit(0);
                 case 0:
                     return;
                 default:

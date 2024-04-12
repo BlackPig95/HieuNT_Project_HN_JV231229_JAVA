@@ -25,16 +25,17 @@ public class AdminMenu
         {
 
             System.out.print(CONSOLECOLORS.BLACK_BACKGROUND);
-            System.out.println(CONSOLECOLORS.YELLOW_BRIGHT);
+            System.out.println(CONSOLECOLORS.BLUE_BOLD_BRIGHT);
             System.out.print("""
-                    ┏────────────────────────────────────────────────────────────┓
-                    ┃  ==================  CHÀO MỪNG ADMIN  ===================  ┃
-                    ┃  1. Quản lý người dùng                                     ┃
-                    ┃  2. Quản lý thể loại phim                                  ┃
-                    ┃  3. Quản lý phòng chiếu                                    ┃
-                    ┃  4. Quản lý lịch chiếu                                     ┃
-                    ┃  5. Quản lý danh sách phim                                 ┃
-                    ┃  6. Quản lý danh sách đồ ăn/ đồ uống tại rạp               ┃
+                    ┏────────────────────────────────────────────────────────────┓\s
+                    ┃  ==================  CHÀO MỪNG ADMIN  ===================  ┃\s
+                    ┃  1. Quản lý người dùng                                     ┃\s
+                    ┃  2. Quản lý thể loại phim                                  ┃\s
+                    ┃  3. Quản lý phòng chiếu                                    ┃\s
+                    ┃  4. Quản lý lịch chiếu                                     ┃\s
+                    ┃  5. Quản lý danh sách phim                                 ┃\s
+                    ┃  6. Quản lý danh sách đồ ăn/ đồ uống tại rạp               ┃\s
+                    ┃  9. Thoát khỏi trang                                       ┃
                     ┃  0. Đăng xuất                                              ┃  \s
                     ┗────────────────────────────────────────────────────────────┛ 	                  \s
                       """);
@@ -61,6 +62,8 @@ public class AdminMenu
                 case 6:
                     displaySnackManageMenu(currentUser);
                     break;
+                case 9:
+                    System.exit(0);
                 case 0:
                     IOFile.writeObject(IOFile.USER_LOGIN, null);
                     return;
@@ -76,15 +79,16 @@ public class AdminMenu
         while (true)
         {
             System.out.print(CONSOLECOLORS.BLACK_BACKGROUND);
-            System.out.println(CONSOLECOLORS.YELLOW_BRIGHT);
+            System.out.println(CONSOLECOLORS.BLUE_BOLD_BRIGHT);
             System.out.print("""
-                    ┏────────────────────────────────────────────────────────────┓
-                    ┃  ================  QUẢN LÝ NGƯỜI DÙNG  ==================  ┃
-                    ┃  1. Thêm người dùng mới                                    ┃
-                    ┃  2. Cập nhật trạng thái người                              ┃
-                    ┃  3. Tìm kiếm người dùng                                    ┃
-                    ┃  4. Hiển thị danh sách người dùng hiện                     ┃
-                    ┃  0. Quay lại                                             ┃  \s
+                    ┏────────────────────────────────────────────────────────────┓\s
+                    ┃  ================  QUẢN LÝ NGƯỜI DÙNG  ==================  ┃\s
+                    ┃  1. Thêm người dùng mới                                    ┃\s
+                    ┃  2. Cập nhật trạng thái người                              ┃\s
+                    ┃  3. Tìm kiếm người dùng                                    ┃\s
+                    ┃  4. Hiển thị danh sách người dùng hiện                     ┃\s
+                    ┃  9. Thoát khỏi trang                                       ┃
+                    ┃  0. Quay lại                                               ┃  \s
                     ┗────────────────────────────────────────────────────────────┛ 	                  \s
                       """);
             System.out.print(CONSOLECOLORS.RESET);
@@ -104,6 +108,8 @@ public class AdminMenu
                 case 4:
                     userManagement.displayAllItem(currentUser);
                     break;
+                case 9:
+                    System.exit(0);
                 case 0:
                     return;
                 default:
@@ -118,15 +124,16 @@ public class AdminMenu
         while (true)
         {
             System.out.print(CONSOLECOLORS.BLACK_BACKGROUND);
-            System.out.println(CONSOLECOLORS.YELLOW_BRIGHT);
+            System.out.println(CONSOLECOLORS.BLUE_BOLD_BRIGHT);
             System.out.print("""
-                    ┏────────────────────────────────────────────────────────────┓
-                    ┃  ===============  QUẢN LÝ THỂ LOẠI PHIM  ================  ┃
-                    ┃  1. Thêm thể loại phim mới                                 ┃
-                    ┃  2. Cập nhật thông tin thể loại phim                       ┃
-                    ┃  3. Tìm kiếm thể loại phim                                 ┃
-                    ┃  4. Hiển thị danh sách thể loại phim hiện có               ┃
-                    ┃  5. Xóa thể loại                                           ┃
+                    ┏────────────────────────────────────────────────────────────┓\s
+                    ┃  ===============  QUẢN LÝ THỂ LOẠI PHIM  ================  ┃\s
+                    ┃  1. Thêm thể loại phim mới                                 ┃\s
+                    ┃  2. Cập nhật thông tin thể loại phim                       ┃\s
+                    ┃  3. Tìm kiếm thể loại phim                                 ┃\s
+                    ┃  4. Hiển thị danh sách thể loại phim hiện có               ┃\s
+                    ┃  5. Xóa thể loại                                           ┃\s
+                    ┃  9. Thoát khỏi trang                                       ┃
                     ┃  0. Quay lại                                               ┃  \s
                     ┗────────────────────────────────────────────────────────────┛ 	                  \s
                       """);
@@ -150,6 +157,8 @@ public class AdminMenu
                 case 5:
                     movieCategoryManagement.deleteItem();
                     break;
+                case 9:
+                    System.exit(0);
                 case 0:
                     return;
                 default:
@@ -164,15 +173,16 @@ public class AdminMenu
         while (true)
         {
             System.out.print(CONSOLECOLORS.BLACK_BACKGROUND);
-            System.out.println(CONSOLECOLORS.YELLOW_BRIGHT);
+            System.out.println(CONSOLECOLORS.BLUE_BOLD_BRIGHT);
             System.out.print("""
-                    ┏────────────────────────────────────────────────────────────┓
-                    ┃  ===================  QUẢN LÝ PHIM  =====================  ┃
-                    ┃  1. Thêm phim mới                                          ┃
-                    ┃  2. Cập nhật thông tin phim                                ┃
-                    ┃  3. Tìm kiếm phim                                          ┃
-                    ┃  4. Hiển thị danh sách phim hiện có                        ┃
-                    ┃  5. Xóa phim                                               ┃
+                    ┏────────────────────────────────────────────────────────────┓\s
+                    ┃  ===================  QUẢN LÝ PHIM  =====================  ┃\s
+                    ┃  1. Thêm phim mới                                          ┃\s
+                    ┃  2. Cập nhật thông tin phim                                ┃\s
+                    ┃  3. Tìm kiếm phim                                          ┃\s
+                    ┃  4. Hiển thị danh sách phim hiện có                        ┃\s
+                    ┃  5. Xóa phim                                               ┃\s
+                    ┃  9. Thoát khỏi trang                                       ┃
                     ┃  0. Quay lại                                               ┃  \s
                     ┗────────────────────────────────────────────────────────────┛ 	                  \s
                       """);
@@ -196,6 +206,8 @@ public class AdminMenu
                 case 5:
                     movieManagement.deleteItem();
                     break;
+                case 9:
+                    System.exit(0);
                 case 0:
                     return;
                 default:
@@ -210,7 +222,7 @@ public class AdminMenu
         while (true)
         {
             System.out.print(CONSOLECOLORS.BLACK_BACKGROUND);
-            System.out.print(CONSOLECOLORS.YELLOW_BRIGHT);
+            System.out.print(CONSOLECOLORS.BLUE_BOLD_BRIGHT);
             System.out.print("""
                     ┏────────────────────────────────────────────────────────────┓\s
                     ┃  =================  QUẢN LÝ LỊCH CHIẾU  =================  ┃  \s
@@ -219,6 +231,7 @@ public class AdminMenu
                     ┃  3. Tìm kiếm lịch chiếu                                    ┃
                     ┃  4. Hiển thị danh sách lịch chiếu hiện có                  ┃  \s
                     ┃  5. Xóa lịch chiếu                                         ┃  \s
+                    ┃  9. Thoát khỏi trang                                       ┃
                     ┃  0. Quay lại                                               ┃  \s
                     ┗────────────────────────────────────────────────────────────┛ 	                  \s
                       """);
@@ -242,6 +255,8 @@ public class AdminMenu
                 case 5:
                     showTimeManagement.deleteItem();
                     break;
+                case 9:
+                    System.exit(0);
                 case 0:
                     return;
                 default:
@@ -256,7 +271,7 @@ public class AdminMenu
         while (true)
         {
             System.out.print(CONSOLECOLORS.BLACK_BACKGROUND);
-            System.out.print(CONSOLECOLORS.YELLOW_BRIGHT);
+            System.out.print(CONSOLECOLORS.BLUE_BOLD_BRIGHT);
             System.out.print("""
                     ┏────────────────────────────────────────────────────────────┓\s
                     ┃  =================  QUẢN LÝ PHÒNG CHIẾU  ================= ┃  \s
@@ -265,6 +280,7 @@ public class AdminMenu
                     ┃  3. Tìm kiếm phòng chiếu                                   ┃
                     ┃  4. Hiển thị danh sách phòng chiếu hiện có                 ┃  \s
                     ┃  5. Xóa phòng chiếu                                        ┃  \s
+                    ┃  9. Thoát khỏi trang                                       ┃
                     ┃  0. Quay lại                                               ┃  \s
                     ┗────────────────────────────────────────────────────────────┛ 	                  \s
                       """);
@@ -288,6 +304,8 @@ public class AdminMenu
                 case 5:
                     roomManagement.deleteItem();
                     break;
+                case 9:
+                    System.exit(0);
                 case 0:
                     return;
                 default:
@@ -302,7 +320,7 @@ public class AdminMenu
         while (true)
         {
             System.out.print(CONSOLECOLORS.BLACK_BACKGROUND);
-            System.out.print(CONSOLECOLORS.YELLOW_BRIGHT);
+            System.out.print(CONSOLECOLORS.BLUE_BOLD_BRIGHT);
             System.out.print("""
                     ┏────────────────────────────────────────────────────────────┓\s
                     ┃  ==========  QUẢN LÝ DANH SÁCH ĐỒ ĂN/ ĐỒ UỐNG  =========== ┃  \s
@@ -311,6 +329,7 @@ public class AdminMenu
                     ┃  3. Tìm kiếm đồ ăn/ đồ uống                                ┃
                     ┃  4. Hiển thị danh sách đồ ăn/ đồ uống hiện có              ┃  \s
                     ┃  5. Xóa đồ ăn/ đồ uống                                     ┃  \s
+                    ┃  9. Thoát khỏi trang                                       ┃
                     ┃  0. Quay lại                                               ┃  \s
                     ┗────────────────────────────────────────────────────────────┛ 	                  \s
                       """);
@@ -334,6 +353,8 @@ public class AdminMenu
                 case 5:
                     snackManagement.deleteItem();
                     break;
+                case 9:
+                    System.exit(0);
                 case 0:
                     return;
                 default:

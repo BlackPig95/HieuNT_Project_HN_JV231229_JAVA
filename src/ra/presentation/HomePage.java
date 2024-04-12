@@ -33,13 +33,17 @@ public class HomePage
             }
             if (user == null)
             {
-                System.out.println("""
-                        ********************CHÀO MỪNG********************
-                        1. Xem danh sách phim hiện có (Đăng nhập để mua vé)
-                        2. Đăng ký
-                        3. Đăng nhập
-                        0. Thoát khỏi trang
-                        """);
+                System.out.println(CONSOLECOLORS.YELLOW_BOLD_BRIGHT);
+                System.out.print("""
+                        ┏────────────────────────────────────────────────────────────┓
+                        ┃  =====================  CHÀO MỪNG  ======================  ┃
+                        ┃  1. Xem danh sách phim hiện có (Đăng nhập để mua vé)       ┃
+                        ┃  2. Đăng ký                                                ┃
+                        ┃  3. Đăng nhập                                              ┃
+                        ┃  0. Thoát khỏi trang                                       ┃
+                        ┗────────────────────────────────────────────────────────────┛ 	               
+                          """);
+                System.out.print(CONSOLECOLORS.RESET);
                 System.out.println("Hãy nhập lựa chọn theo danh sách ở trên");
                 byte choice = InputMethods.nextByte();
                 switch (choice)
