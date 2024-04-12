@@ -1,6 +1,9 @@
 package ra.business.entity.purchase;
 
+import ra.business.config.CONSOLECOLORS;
+import ra.business.config.CONSTANT;
 import ra.business.design.IPurchasable;
+import ra.business.entity.movie.Movie;
 import ra.business.entity.movie.ShowTime;
 
 import java.util.List;
@@ -8,21 +11,49 @@ import java.util.List;
 public class Ticket implements IPurchasable
 {
     private String ticketId = "";
-
     private int price = 55000;
-    private String movieId;
-    private String showTimeId;
+    private Movie movie;
+    private ShowTime showTime;
+    private List<String> seatNameList;
 
     public Ticket()
     {
     }
 
-    public Ticket(String ticketId, int price, String movieId, String showTimeId)
+    public Ticket(String ticketId, int price, Movie movie, ShowTime showTime, List<String> seatNameList)
     {
         this.ticketId = ticketId;
         this.price = price;
-        this.movieId = movieId;
-        this.showTimeId = showTimeId;
+        this.movie = movie;
+        this.showTime = showTime;
+        this.seatNameList = seatNameList;
+    }
+
+    @Override
+    public String showBasicData()
+    {
+        //Dùng để in ra danh sách ghế ngồi
+        StringBuilder listSeat = new StringBuilder();
+        if (!this.seatNameList.isEmpty())
+        {
+            this.seatNameList.forEach(s -> listSeat.append(s).append(" | "));
+        }
+        return CONSOLECOLORS.YELLOW
+                + "--------------------------------------------------------------------------------------"
+                + CONSOLECOLORS.RESET
+                + "\nMã vé: " + this.ticketId + " | Giá vé: " + this.price
+                + " | Tổng tiền vé: " + (this.seatNameList.size() * this.price)
+                + CONSOLECOLORS.YELLOW
+                + "\n--------------------------------------------------------------------------------------"
+                + CONSOLECOLORS.RESET
+                + "\nThông tin phim: "
+                + "\nTên phim: " + movie.getMovieName()
+                + "\nPhòng chiếu: " + this.showTime.getRoom().getRoomId()
+                + "\nGhế ngồi: " + (!listSeat.isEmpty() ? listSeat : "Không có")
+                + "\nGiờ chiếu: " + this.showTime.getOnAirTime().format(CONSTANT.DTF)
+                + CONSOLECOLORS.YELLOW
+                + "\n--------------------------------------------------------------------------------------"
+                + CONSOLECOLORS.RESET;
     }
 
     public String getTicketId()
@@ -45,28 +76,33 @@ public class Ticket implements IPurchasable
         this.price = price;
     }
 
-    public String getMovieId()
+    public Movie getMovie()
     {
-        return movieId;
+        return movie;
     }
 
-    public void setMovieId(String movieId)
+    public void setMovie(Movie movie)
     {
-        this.movieId = movieId;
+        this.movie = movie;
     }
 
-    public String getShowTimeId()
+    public ShowTime getShowTime()
     {
-        return showTimeId;
+        return showTime;
     }
 
-    public void setShowTimeId(String showTimeId)
+    public void setShowTime(ShowTime showTime)
     {
-        this.showTimeId = showTimeId;
+        this.showTime = showTime;
     }
 
-    public ShowTime getShowTimeFromId(List<ShowTime> showTimeList)
+    public List<String> getSeatNameList()
     {
-        return showTimeList.stream().filter(s -> s.getShowTimeId().equals(this.showTimeId)).findFirst().orElse(null);
+        return seatNameList;
+    }
+
+    public void setSeatNameList(List<String> seatNameList)
+    {
+        this.seatNameList = seatNameList;
     }
 }

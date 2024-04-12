@@ -37,9 +37,11 @@ public class Snack implements IPurchasable
     }
 
     //UI
+    @Override
     public String showBasicData()
     {
-        return "Tên: " + this.snackName + " | Giá bán: " + CONSTANT.currencyFormat.format(this.price);
+        return "Tên đồ ăn/ đồ uống: " + this.snackName + " | Giá bán: " + CONSTANT.currencyFormat.format(this.price)
+                + " | Số lượng: " + this.amountPurchased;
     }
 
     private void inputSnackId(List<Snack> snackList)
@@ -68,7 +70,6 @@ public class Snack implements IPurchasable
 
     private void inputSnackName(List<Snack> snackList, boolean isAdding)
     {
-
         while (true)
         {
             System.out.println("Nhập tên của đồ ăn/ đồ uống");

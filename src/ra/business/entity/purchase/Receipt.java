@@ -1,37 +1,29 @@
 package ra.business.entity.purchase;
 
+import ra.business.design.IPurchasable;
+
+import java.util.List;
+
 public class Receipt
 {
-    private String ticketId;
-    private String foodId;
+    List<IPurchasable> purchasedList;
 
     public Receipt()
     {
     }
 
-    public Receipt(String ticketId, String foodId)
+    public Receipt(List<IPurchasable> purchasedList)
     {
-        this.ticketId = ticketId;
-        this.foodId = foodId;
+        this.purchasedList = purchasedList;
     }
 
-    public String getTicketId()
+    public List<IPurchasable> getPurchasedList()
     {
-        return ticketId;
+        return purchasedList;
     }
 
-    public void setTicketId(String ticketId)
+    public void setPurchasedList(List<IPurchasable> purchasedList)
     {
-        this.ticketId = ticketId;
-    }
-
-    public String getFoodId()
-    {
-        return foodId;
-    }
-
-    public void setFoodId(String foodId)
-    {
-        this.foodId = foodId;
+        this.purchasedList = purchasedList;
     }
 }

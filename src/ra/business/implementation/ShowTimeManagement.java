@@ -118,8 +118,6 @@ public class ShowTimeManagement implements IDeletable
             System.out.println(CONSOLECOLORS.RED + "Không tìm thấy lịch chiếu" + CONSOLECOLORS.RESET);
             return;
         }
-        showTimeList.remove(indexDelete);
-
         String idDeleted = showTimeList.get(indexDelete).getShowTimeId();
         for (Movie movie : movieList)
         {//Duyệt qua list các phim xem có lịch chiếu nào đang được sử dụng cho phim này không
@@ -132,6 +130,7 @@ public class ShowTimeManagement implements IDeletable
                 }
             }
         }
+        showTimeList.remove(indexDelete);
         System.out.println(CONSOLECOLORS.GREEN + "Xóa lịch chiếu thành công" + CONSOLECOLORS.RESET);
         IOFile.writeToFile(IOFile.SHOW_TIME_PATH, showTimeList);
     }

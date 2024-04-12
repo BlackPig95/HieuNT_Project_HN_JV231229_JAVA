@@ -1,11 +1,13 @@
 package ra.business.config;
 
 import java.text.NumberFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class CONSTANT
 {
     public static final Locale VN_LOCALE = new Locale("vi", "VN");
+    public static final DateTimeFormatter DTF = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
     public static final NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(VN_LOCALE);
     public static final String DDMMYYYY = "dd/MM/yyyy";
     public static final String ID_NOT_EXIST = "Id không tồn tại";
