@@ -24,7 +24,6 @@ public class AdminMenu
         while (true)
         {
 
-            System.out.print(CONSOLECOLORS.BLACK_BACKGROUND);
             System.out.println(CONSOLECOLORS.BLUE_BOLD_BRIGHT);
             System.out.print("""
                     ┏────────────────────────────────────────────────────────────┓\s
@@ -78,7 +77,6 @@ public class AdminMenu
     {
         while (true)
         {
-            System.out.print(CONSOLECOLORS.BLACK_BACKGROUND);
             System.out.println(CONSOLECOLORS.BLUE_BOLD_BRIGHT);
             System.out.print("""
                     ┏────────────────────────────────────────────────────────────┓\s
@@ -123,7 +121,6 @@ public class AdminMenu
     {
         while (true)
         {
-            System.out.print(CONSOLECOLORS.BLACK_BACKGROUND);
             System.out.println(CONSOLECOLORS.BLUE_BOLD_BRIGHT);
             System.out.print("""
                     ┏────────────────────────────────────────────────────────────┓\s
@@ -172,7 +169,6 @@ public class AdminMenu
     {
         while (true)
         {
-            System.out.print(CONSOLECOLORS.BLACK_BACKGROUND);
             System.out.println(CONSOLECOLORS.BLUE_BOLD_BRIGHT);
             System.out.print("""
                     ┏────────────────────────────────────────────────────────────┓\s
@@ -221,7 +217,6 @@ public class AdminMenu
     {
         while (true)
         {
-            System.out.print(CONSOLECOLORS.BLACK_BACKGROUND);
             System.out.print(CONSOLECOLORS.BLUE_BOLD_BRIGHT);
             System.out.print("""
                     ┏────────────────────────────────────────────────────────────┓\s
@@ -270,7 +265,6 @@ public class AdminMenu
     {
         while (true)
         {
-            System.out.print(CONSOLECOLORS.BLACK_BACKGROUND);
             System.out.print(CONSOLECOLORS.BLUE_BOLD_BRIGHT);
             System.out.print("""
                     ┏────────────────────────────────────────────────────────────┓\s
@@ -319,7 +313,6 @@ public class AdminMenu
     {
         while (true)
         {
-            System.out.print(CONSOLECOLORS.BLACK_BACKGROUND);
             System.out.print(CONSOLECOLORS.BLUE_BOLD_BRIGHT);
             System.out.print("""
                     ┏────────────────────────────────────────────────────────────┓\s
