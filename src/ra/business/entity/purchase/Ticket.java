@@ -6,7 +6,10 @@ import ra.business.design.IPurchasable;
 import ra.business.entity.movie.Movie;
 import ra.business.entity.movie.ShowTime;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 
 public class Ticket implements IPurchasable
 {
@@ -15,18 +18,20 @@ public class Ticket implements IPurchasable
     private Movie movie;
     private ShowTime showTime;
     private List<String> seatNameList;
+    private LocalDateTime timePurchased;
 
     public Ticket()
     {
     }
 
-    public Ticket(String ticketId, int price, Movie movie, ShowTime showTime, List<String> seatNameList)
+    public Ticket(String ticketId, int price, Movie movie, ShowTime showTime, List<String> seatNameList, LocalDateTime timePurchased)
     {
         this.ticketId = ticketId;
         this.price = price;
         this.movie = movie;
         this.showTime = showTime;
         this.seatNameList = seatNameList;
+        this.timePurchased = timePurchased;
     }
 
     @Override
@@ -104,5 +109,15 @@ public class Ticket implements IPurchasable
     public void setSeatNameList(List<String> seatNameList)
     {
         this.seatNameList = seatNameList;
+    }
+
+    public LocalDateTime getTimePurchased()
+    {
+        return timePurchased;
+    }
+
+    public void setTimePurchased(LocalDateTime timePurchased)
+    {
+        this.timePurchased = timePurchased;
     }
 }

@@ -1,5 +1,7 @@
 package ra.business.design;
 
+import ra.business.entity.user.User;
+
 public interface CRUF
 {
     void addItem();
@@ -8,7 +10,7 @@ public interface CRUF
 
     void findItem();
 
-    void displayAllItem();
+    void displayAllItem(User currentUser);
 
     int getIndexById();
 }

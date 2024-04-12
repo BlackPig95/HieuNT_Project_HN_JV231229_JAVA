@@ -5,9 +5,9 @@ import ra.business.config.CONSOLECOLORS;
 import ra.business.config.IOFile;
 import ra.business.config.InputMethods;
 import ra.business.design.IDeletable;
-import ra.business.entity.category.MovieCategory;
 import ra.business.entity.movie.Movie;
 import ra.business.entity.movie.ShowTime;
+import ra.business.entity.user.User;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -82,7 +82,7 @@ public class ShowTimeManagement implements IDeletable
     }
 
     @Override
-    public void displayAllItem()
+    public void displayAllItem(User currentUser)
     {
         if (showTimeList.isEmpty())
         {

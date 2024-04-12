@@ -43,7 +43,6 @@ public class PurchaseManagement
         //Nếu khách không mua vé thì ticket sẽ không có ID => Quay lại màn hình chính
         if (newTicket.getTicketId().isEmpty())
         {
-            System.out.println(CONSOLECOLORS.RED + "Bạn chưa chọn mua vé xem phim nên không thể tiếp tục" + CONSOLECOLORS.RESET);
             return;
         }
         displaySnackChoiceMenu();
@@ -397,7 +396,7 @@ public class PurchaseManagement
                         }
                     }
                 }
-                System.out.println(CONSOLECOLORS.RED + "Đã hủy đơn hàng" + CONSOLECOLORS.RESET);
+                System.out.println(CONSOLECOLORS.RED + "Đã hủy đơn hàng (┬┬﹏┬┬)" + CONSOLECOLORS.RESET);
                 return;
             }
             if (BCrypt.checkpw(confirmPw, currentuser.getPassword()))
@@ -420,11 +419,11 @@ public class PurchaseManagement
                     }
                 }
                 System.out.println(CONSOLECOLORS.YELLOW + CONSOLECOLORS.BLACK_BACKGROUND
-                        + "           THANH TOÁN THÀNH CÔNG          " + CONSOLECOLORS.RESET);
+                        + "   (☞ﾟヮﾟ)☞THANH TOÁN THÀNH CÔNG☜(ﾟヮﾟ☜)    " + CONSOLECOLORS.RESET);
                 System.out.println(CONSOLECOLORS.YELLOW + CONSOLECOLORS.BLACK_BACKGROUND
-                        + "HÃY LƯU LẠI MÃ HÓA ĐƠN ĐỂ NHẬN VÉ TẠI QUẦY" + CONSOLECOLORS.RESET);
+                        + " HÃY LƯU LẠI MÃ HÓA ĐƠN ĐỂ NHẬN VÉ TẠI QUẦY " + CONSOLECOLORS.RESET);
                 System.out.println(CONSOLECOLORS.YELLOW + CONSOLECOLORS.BLACK_BACKGROUND
-                        + "             CẢM ƠN QUÝ KHÁCH             " + CONSOLECOLORS.RESET);
+                        + "            😊CẢM ƠN QUÝ KHÁCH😊            " + CONSOLECOLORS.RESET);
                 return;
             } else
             {

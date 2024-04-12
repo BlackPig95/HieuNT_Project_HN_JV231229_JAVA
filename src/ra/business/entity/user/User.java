@@ -176,9 +176,11 @@ public class User implements Serializable, IAdminPaginable
     @Override
     public void displayData()
     {
+        System.out.println("────────────────────────────────────────────────────────────────────────────────────");
         System.out.printf("Mã người dùng: %s | Tên người dùng: %s \n", this.userId, this.fullName);
         System.out.printf("Số điện thoại: %s | Email: %s \n", String.format("0%d", this.phone), this.email);
         System.out.printf("Trạng thái: %s \n", this.status ? "Hoạt động" : "Bị khóa");
+        System.out.println("────────────────────────────────────────────────────────────────────────────────────");
     }
 
     //Dùng cho giao diện user

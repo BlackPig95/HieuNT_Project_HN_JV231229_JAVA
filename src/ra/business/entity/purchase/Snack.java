@@ -36,6 +36,7 @@ public class Snack implements IPurchasable, IAdminPaginable
     {
         System.out.printf("Mã đồ ăn/ đồ uống: %s | Tên: %s | Giá bán: %s | Phân loại: %s\n",
                 this.snackId, this.snackName, CONSTANT.currencyFormat.format(this.price), this.snackType.getName());
+        System.out.println("────────────────────────────────────────────────────────────────────────────────────");
     }
 
     //UI

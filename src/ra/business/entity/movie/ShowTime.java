@@ -51,6 +51,7 @@ public class ShowTime implements Serializable, IAdminPaginable
     {
         System.out.printf("Mã lịch chiếu: %s | Thời gian chiếu: %s | Phòng chiếu: %d \n",
                 this.showTimeId, this.onAirTime.format(dateTimeFormatter), this.room.getRoomId());
+        System.out.println("────────────────────────────────────────────────────────────────────────────────────");
     }
 
     private void inputShowTimeId(List<ShowTime> showTimeList, boolean isAdding)

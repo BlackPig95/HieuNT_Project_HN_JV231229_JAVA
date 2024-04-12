@@ -5,8 +5,10 @@ import ra.business.config.CONSTANT;
 import ra.business.config.IOFile;
 import ra.business.config.InputMethods;
 import ra.business.design.IDeletable;
+import ra.business.entity.enumclasses.USER_ROLE;
 import ra.business.entity.movie.Movie;
 import ra.business.entity.movie.ShowTime;
+import ra.business.entity.user.User;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -105,7 +107,7 @@ public class MovieManagement implements IDeletable
     }
 
     @Override
-    public void displayAllItem()
+    public void displayAllItem(User currentUser)
     {
         if (movieList.isEmpty())
         {
@@ -113,7 +115,13 @@ public class MovieManagement implements IDeletable
             return;
         }
         System.out.println("Danh sách các phim hiện có:");
-        movieList.forEach(m -> m.displayData(showTimeList));
+        if (currentUser == null || currentUser.getRole() == USER_ROLE.USER)
+        {
+            movieList.forEach(m -> m.displayBasicData(showTimeList));
+        } else
+        {
+            movieList.forEach(m -> m.displayData(showTimeList));
+        }
     }
 
     @Override

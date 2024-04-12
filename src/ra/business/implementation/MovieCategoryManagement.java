@@ -6,6 +6,7 @@ import ra.business.config.IOFile;
 import ra.business.config.InputMethods;
 import ra.business.design.ICategoryDesign;
 import ra.business.entity.category.MovieCategory;
+import ra.business.entity.user.User;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -74,7 +75,7 @@ public class MovieCategoryManagement implements ICategoryDesign
     }
 
     @Override
-    public void displayAllItem()
+    public void displayAllItem(User currentUser)
     {
         if (movieCategoryList.isEmpty())
         {

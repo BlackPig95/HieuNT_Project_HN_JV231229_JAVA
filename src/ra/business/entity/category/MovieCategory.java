@@ -41,6 +41,7 @@ public class MovieCategory implements Serializable, IAdminPaginable
     {
         System.out.printf("Mã số: %s | Tên thể loại: %s | Mô tả: %s\n",
                 this.categoryId, this.categoryName, this.description);
+        System.out.println("────────────────────────────────────────────────────────────────────────────────────");
     }
 
     private void inputCategoryName(List<MovieCategory> movieCategoryList, boolean isAdding)

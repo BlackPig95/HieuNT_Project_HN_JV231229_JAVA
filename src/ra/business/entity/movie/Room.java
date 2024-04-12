@@ -54,6 +54,7 @@ public class Room implements Serializable, IAdminPaginable
     public void displayData()
     {
         System.out.printf("Phòng chiếu số: %d | Số lượng ghế ngồi: %d \n", this.roomId, countSeat());
+        System.out.println("────────────────────────────────────────────────────────────────────────────────────");
     }
 
     private void inputRoomId(List<Room> roomList, boolean isAdding)

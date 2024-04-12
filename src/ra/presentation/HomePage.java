@@ -7,7 +7,6 @@ import ra.business.config.InputMethods;
 import ra.business.entity.enumclasses.USER_ROLE;
 import ra.business.entity.user.User;
 import ra.business.implementation.AuthenticationService;
-import ra.business.implementation.UserManagement;
 
 public class HomePage
 {
@@ -46,7 +45,7 @@ public class HomePage
                 switch (choice)
                 {
                     case 1:
-                        AdminMenu.movieManagement.displayAllItem();
+                        AdminMenu.movieManagement.displayAllItem(user);
                         break;
                     case 2:
                         authentication.register();
@@ -78,7 +77,7 @@ public class HomePage
                 userMenu.displayUserMenu(user);
             } else
             {
-                adminMenu.displayAdminMenu();
+                adminMenu.displayAdminMenu(user);
             }
             //JAVA không tồn tại pass by reference mà chỉ có pass by sharing
             //=> Khi user logout thì phải tự set lại user hiện thành null
@@ -134,7 +133,7 @@ public class HomePage
                 //Viết vào file trước khi gọi displayMenu để khi hàm displayMenu trả về sẽ không bị ghi đè
                 //file 1 lần nữa gây lỗi vì cơ chế pass by sharing
                 IOFile.writeObject(IOFile.USER_LOGIN, user);
-                adminMenu.displayAdminMenu();
+                adminMenu.displayAdminMenu(user);
             }
         }
     }

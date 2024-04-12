@@ -1,23 +1,23 @@
 package ra.business.entity.user;
 
+import ra.business.entity.purchase.Ticket;
+
 import java.time.LocalDate;
 import java.util.List;
 
 public class History
 {
     private String historyId;
-    private List<String> movieId;
-    private LocalDate createdAt;
+    private Ticket ticketPurchased;
 
     public History()
     {
     }
 
-    public History(String historyId, List<String> movieId, LocalDate createdAt)
+    public History(String historyId, Ticket ticketPurchased)
     {
         this.historyId = historyId;
-        this.movieId = movieId;
-        this.createdAt = createdAt;
+        this.ticketPurchased = ticketPurchased;
     }
 
     public String getHistoryId()
@@ -30,23 +30,13 @@ public class History
         this.historyId = historyId;
     }
 
-    public List<String> getMovieId()
+    public Ticket getTicketPurchased()
     {
-        return movieId;
+        return ticketPurchased;
     }
 
-    public void setMovieId(List<String> movieId)
+    public void setTicketPurchased(Ticket ticketPurchased)
     {
-        this.movieId = movieId;
-    }
-
-    public LocalDate getCreatedAt()
-    {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDate createdAt)
-    {
-        this.createdAt = createdAt;
+        this.ticketPurchased = ticketPurchased;
     }
 }

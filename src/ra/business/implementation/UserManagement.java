@@ -99,7 +99,7 @@ public class UserManagement implements IUserDesign
     }
 
     @Override
-    public void displayAllItem()
+    public void displayAllItem(User currentUser)
     {
         System.out.println("Danh sách người dùng hiện tại");
         AdminPagination.pagination(userList);

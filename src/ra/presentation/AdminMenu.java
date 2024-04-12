@@ -7,6 +7,7 @@ import ra.business.config.InputMethods;
 import ra.business.design.ICategoryDesign;
 import ra.business.design.IDeletable;
 import ra.business.design.IUserDesign;
+import ra.business.entity.user.User;
 import ra.business.implementation.*;
 
 public class AdminMenu
@@ -18,41 +19,47 @@ public class AdminMenu
     private static final IDeletable roomManagement = new RoomManagement();
     private static final IDeletable snackManagement = new SnackManagement();
 
-    public void displayAdminMenu()
+    public void displayAdminMenu(User currentUser)
     {
         while (true)
         {
-            System.out.println("""
-                    ********************CHÀO MỪNG ADMIN********************
-                    1. Quản lý người dùng
-                    2. Quản lý thể loại phim
-                    3. Quản lý phòng chiếu
-                    4. Quản lý lịch chiếu
-                    5. Quản lý danh sách phim
-                    6. Quản lý danh sách đồ ăn/ đồ uống tại rạp
-                    0. Đăng xuất
-                    """);
+
+            System.out.print(CONSOLECOLORS.BLACK_BACKGROUND);
+            System.out.println(CONSOLECOLORS.YELLOW_BRIGHT);
+            System.out.print("""
+                    ┏────────────────────────────────────────────────────────────┓
+                    ┃  ==================  CHÀO MỪNG ADMIN  ===================  ┃
+                    ┃  1. Quản lý người dùng                                     ┃
+                    ┃  2. Quản lý thể loại phim                                  ┃
+                    ┃  3. Quản lý phòng chiếu                                    ┃
+                    ┃  4. Quản lý lịch chiếu                                     ┃
+                    ┃  5. Quản lý danh sách phim                                 ┃
+                    ┃  6. Quản lý danh sách đồ ăn/ đồ uống tại rạp               ┃
+                    ┃  0. Đăng xuất                                              ┃  \s
+                    ┗────────────────────────────────────────────────────────────┛ 	                  \s
+                      """);
+            System.out.print(CONSOLECOLORS.RESET);
             System.out.println("Hãy nhập lựa chọn theo danh sách ở trên");
             byte choice = InputMethods.nextByte();
             switch (choice)
             {
                 case 1:
-                    displayUserManageMenu();
+                    displayUserManageMenu(currentUser);
                     break;
                 case 2:
-                    displayCategoryManageMenu();
+                    displayCategoryManageMenu(currentUser);
                     break;
                 case 3:
-                    displayRoomManageMenu();
+                    displayRoomManageMenu(currentUser);
                     break;
                 case 4:
-                    displayShowTimeManageMenu();
+                    displayShowTimeManageMenu(currentUser);
                     break;
                 case 5:
-                    displayMovieManageMenu();
+                    displayMovieManageMenu(currentUser);
                     break;
                 case 6:
-                    displaySnackManageMenu();
+                    displaySnackManageMenu(currentUser);
                     break;
                 case 0:
                     IOFile.writeObject(IOFile.USER_LOGIN, null);
@@ -64,18 +71,23 @@ public class AdminMenu
         }
     }
 
-    private void displayUserManageMenu()
+    private void displayUserManageMenu(User currentUser)
     {
         while (true)
         {
-            System.out.println("""
-                    ********************CHÀO MỪNG ADMIN********************
-                    1. Thêm người dùng mới
-                    2. Cập nhật trạng thái người dùng
-                    3. Tìm kiếm người dùng
-                    4. Hiển thị danh sách người dùng hiện có
-                    0. Quay lại
-                    """);
+            System.out.print(CONSOLECOLORS.BLACK_BACKGROUND);
+            System.out.println(CONSOLECOLORS.YELLOW_BRIGHT);
+            System.out.print("""
+                    ┏────────────────────────────────────────────────────────────┓
+                    ┃  ================  QUẢN LÝ NGƯỜI DÙNG  ==================  ┃
+                    ┃  1. Thêm người dùng mới                                    ┃
+                    ┃  2. Cập nhật trạng thái người                              ┃
+                    ┃  3. Tìm kiếm người dùng                                    ┃
+                    ┃  4. Hiển thị danh sách người dùng hiện                     ┃
+                    ┃  0. Quay lại                                             ┃  \s
+                    ┗────────────────────────────────────────────────────────────┛ 	                  \s
+                      """);
+            System.out.print(CONSOLECOLORS.RESET);
             System.out.println("Hãy nhập lựa chọn theo danh sách ở trên");
             byte choice = InputMethods.nextByte();
             switch (choice)
@@ -90,7 +102,7 @@ public class AdminMenu
                     userManagement.findItem();
                     break;
                 case 4:
-                    userManagement.displayAllItem();
+                    userManagement.displayAllItem(currentUser);
                     break;
                 case 0:
                     return;
@@ -101,19 +113,24 @@ public class AdminMenu
         }
     }
 
-    private void displayCategoryManageMenu()
+    private void displayCategoryManageMenu(User currentUser)
     {
         while (true)
         {
-            System.out.println("""
-                    ********************CHÀO MỪNG ADMIN********************
-                    1. Thêm thể loại phim mới
-                    2. Cập nhật thông tin thể loại phim
-                    3. Tìm kiếm thể loại phim
-                    4. Hiển thị danh sách thể loại phim hiện có
-                    5. Xóa thể loại
-                    0. Quay lại
-                    """);
+            System.out.print(CONSOLECOLORS.BLACK_BACKGROUND);
+            System.out.println(CONSOLECOLORS.YELLOW_BRIGHT);
+            System.out.print("""
+                    ┏────────────────────────────────────────────────────────────┓
+                    ┃  ===============  QUẢN LÝ THỂ LOẠI PHIM  ================  ┃
+                    ┃  1. Thêm thể loại phim mới                                 ┃
+                    ┃  2. Cập nhật thông tin thể loại phim                       ┃
+                    ┃  3. Tìm kiếm thể loại phim                                 ┃
+                    ┃  4. Hiển thị danh sách thể loại phim hiện có               ┃
+                    ┃  5. Xóa thể loại                                           ┃
+                    ┃  0. Quay lại                                               ┃  \s
+                    ┗────────────────────────────────────────────────────────────┛ 	                  \s
+                      """);
+            System.out.print(CONSOLECOLORS.RESET);
             System.out.println("Hãy nhập lựa chọn theo danh sách ở trên");
             byte choice = InputMethods.nextByte();
             switch (choice)
@@ -128,7 +145,7 @@ public class AdminMenu
                     movieCategoryManagement.findItem();
                     break;
                 case 4:
-                    movieCategoryManagement.displayAllItem();
+                    movieCategoryManagement.displayAllItem(currentUser);
                     break;
                 case 5:
                     movieCategoryManagement.deleteItem();
@@ -142,19 +159,24 @@ public class AdminMenu
         }
     }
 
-    private void displayMovieManageMenu()
+    private void displayMovieManageMenu(User currentUser)
     {
         while (true)
         {
-            System.out.println("""
-                    ********************CHÀO MỪNG ADMIN********************
-                    1. Thêm phim mới
-                    2. Cập nhật thông tin phim
-                    3. Tìm kiếm phim
-                    4. Hiển thị danh sách phim hiện có
-                    5. Xóa phim
-                    0. Quay lại
-                    """);
+            System.out.print(CONSOLECOLORS.BLACK_BACKGROUND);
+            System.out.println(CONSOLECOLORS.YELLOW_BRIGHT);
+            System.out.print("""
+                    ┏────────────────────────────────────────────────────────────┓
+                    ┃  ===================  QUẢN LÝ PHIM  =====================  ┃
+                    ┃  1. Thêm phim mới                                          ┃
+                    ┃  2. Cập nhật thông tin phim                                ┃
+                    ┃  3. Tìm kiếm phim                                          ┃
+                    ┃  4. Hiển thị danh sách phim hiện có                        ┃
+                    ┃  5. Xóa phim                                               ┃
+                    ┃  0. Quay lại                                               ┃  \s
+                    ┗────────────────────────────────────────────────────────────┛ 	                  \s
+                      """);
+            System.out.print(CONSOLECOLORS.RESET);
             System.out.println("Hãy nhập lựa chọn theo danh sách ở trên");
             byte choice = InputMethods.nextByte();
             switch (choice)
@@ -169,7 +191,7 @@ public class AdminMenu
                     movieManagement.findItem();
                     break;
                 case 4:
-                    movieManagement.displayAllItem();
+                    movieManagement.displayAllItem(currentUser);
                     break;
                 case 5:
                     movieManagement.deleteItem();
@@ -183,19 +205,24 @@ public class AdminMenu
         }
     }
 
-    private void displayShowTimeManageMenu()
+    private void displayShowTimeManageMenu(User currentUser)
     {
         while (true)
         {
-            System.out.println("""
-                    ********************CHÀO MỪNG ADMIN********************
-                    1. Thêm lịch chiếu mới
-                    2. Cập nhật thông tin lịch chiếu
-                    3. Tìm kiếm lịch chiếu
-                    4. Hiển thị danh sách lịch chiếu hiện có
-                    5. Xóa lịch chiếu
-                    0. Quay lại
-                    """);
+            System.out.print(CONSOLECOLORS.BLACK_BACKGROUND);
+            System.out.print(CONSOLECOLORS.YELLOW_BRIGHT);
+            System.out.print("""
+                    ┏────────────────────────────────────────────────────────────┓\s
+                    ┃  =================  QUẢN LÝ LỊCH CHIẾU  =================  ┃  \s
+                    ┃  1. Thêm lịch chiếu mới                                    ┃           \s
+                    ┃  2. Cập nhật thông tin lịch chiếu                          ┃      \s
+                    ┃  3. Tìm kiếm lịch chiếu                                    ┃
+                    ┃  4. Hiển thị danh sách lịch chiếu hiện có                  ┃  \s
+                    ┃  5. Xóa lịch chiếu                                         ┃  \s
+                    ┃  0. Quay lại                                               ┃  \s
+                    ┗────────────────────────────────────────────────────────────┛ 	                  \s
+                      """);
+            System.out.println(CONSOLECOLORS.RESET);
             System.out.println("Hãy nhập lựa chọn theo danh sách ở trên");
             byte choice = InputMethods.nextByte();
             switch (choice)
@@ -210,7 +237,7 @@ public class AdminMenu
                     showTimeManagement.findItem();
                     break;
                 case 4:
-                    showTimeManagement.displayAllItem();
+                    showTimeManagement.displayAllItem(currentUser);
                     break;
                 case 5:
                     showTimeManagement.deleteItem();
@@ -224,19 +251,24 @@ public class AdminMenu
         }
     }
 
-    private void displayRoomManageMenu()
+    private void displayRoomManageMenu(User currentUser)
     {
         while (true)
         {
-            System.out.println("""
-                    ********************CHÀO MỪNG ADMIN********************
-                    1. Thêm phòng chiếu mới
-                    2. Cập nhật thông tin phòng chiếu
-                    3. Tìm kiếm phòng chiếu
-                    4. Hiển thị danh sách phòng chiếu hiện có
-                    5. Xóa phòng chiếu
-                    0. Quay lại
-                    """);
+            System.out.print(CONSOLECOLORS.BLACK_BACKGROUND);
+            System.out.print(CONSOLECOLORS.YELLOW_BRIGHT);
+            System.out.print("""
+                    ┏────────────────────────────────────────────────────────────┓\s
+                    ┃  =================  QUẢN LÝ PHÒNG CHIẾU  ================= ┃  \s
+                    ┃  1. Thêm phòng chiếu mới                                   ┃           \s
+                    ┃  2. Cập nhật thông tin phòng chiếu                         ┃      \s
+                    ┃  3. Tìm kiếm phòng chiếu                                   ┃
+                    ┃  4. Hiển thị danh sách phòng chiếu hiện có                 ┃  \s
+                    ┃  5. Xóa phòng chiếu                                        ┃  \s
+                    ┃  0. Quay lại                                               ┃  \s
+                    ┗────────────────────────────────────────────────────────────┛ 	                  \s
+                      """);
+            System.out.println(CONSOLECOLORS.RESET);
             System.out.println("Hãy nhập lựa chọn theo danh sách ở trên");
             byte choice = InputMethods.nextByte();
             switch (choice)
@@ -251,7 +283,7 @@ public class AdminMenu
                     roomManagement.findItem();
                     break;
                 case 4:
-                    roomManagement.displayAllItem();
+                    roomManagement.displayAllItem(currentUser);
                     break;
                 case 5:
                     roomManagement.deleteItem();
@@ -265,19 +297,24 @@ public class AdminMenu
         }
     }
 
-    private void displaySnackManageMenu()
+    private void displaySnackManageMenu(User currentUser)
     {
         while (true)
         {
-            System.out.println("""
-                    ********************CHÀO MỪNG ADMIN********************
-                    1. Thêm đồ ăn/ đồ uống mới
-                    2. Cập nhật thông tin đồ ăn/ đồ uống
-                    3. Tìm kiếm đồ ăn/ đồ uống
-                    4. Hiển thị danh sách đồ ăn/ đồ uống hiện có
-                    5. Xóa đồ ăn/ đồ uống
-                    0. Quay lại
-                    """);
+            System.out.print(CONSOLECOLORS.BLACK_BACKGROUND);
+            System.out.print(CONSOLECOLORS.YELLOW_BRIGHT);
+            System.out.print("""
+                    ┏────────────────────────────────────────────────────────────┓\s
+                    ┃  ==========  QUẢN LÝ DANH SÁCH ĐỒ ĂN/ ĐỒ UỐNG  =========== ┃  \s
+                    ┃  1. Thêm đồ ăn/ đồ uống mới                                ┃           \s
+                    ┃  2. Cập nhật thông tin đồ ăn/ đồ uống                      ┃      \s
+                    ┃  3. Tìm kiếm đồ ăn/ đồ uống                                ┃
+                    ┃  4. Hiển thị danh sách đồ ăn/ đồ uống hiện có              ┃  \s
+                    ┃  5. Xóa đồ ăn/ đồ uống                                     ┃  \s
+                    ┃  0. Quay lại                                               ┃  \s
+                    ┗────────────────────────────────────────────────────────────┛ 	                  \s
+                      """);
+            System.out.println(CONSOLECOLORS.RESET);
             System.out.println("Hãy nhập lựa chọn theo danh sách ở trên");
             byte choice = InputMethods.nextByte();
             switch (choice)
@@ -292,7 +329,7 @@ public class AdminMenu
                     snackManagement.findItem();
                     break;
                 case 4:
-                    snackManagement.displayAllItem();
+                    snackManagement.displayAllItem(currentUser);
                     break;
                 case 5:
                     snackManagement.deleteItem();

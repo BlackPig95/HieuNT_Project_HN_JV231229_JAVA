@@ -6,7 +6,6 @@ import ra.business.config.IOFile;
 import ra.business.config.InputMethods;
 import ra.business.entity.user.User;
 import ra.business.implementation.PurchaseManagement;
-import ra.business.implementation.UserManagement;
 
 public class UserMenu
 {
@@ -35,7 +34,7 @@ public class UserMenu
                     AdminMenu.movieManagement.findItem();
                     break;
                 case 3:
-                    AdminMenu.movieManagement.displayAllItem();
+                    AdminMenu.movieManagement.displayAllItem(currentUser);
                     break;
                 case 4:
                     displayPersonalInfoMenu(currentUser);
