@@ -2,6 +2,7 @@ package ra.presentation;
 
 import ra.business.config.CONSOLECOLORS;
 import ra.business.config.CONSTANT;
+import ra.business.config.IOFile;
 import ra.business.config.InputMethods;
 import ra.business.design.ICategoryDesign;
 import ra.business.design.IDeletable;
@@ -54,6 +55,7 @@ public class AdminMenu
                     displaySnackManageMenu();
                     break;
                 case 0:
+                    IOFile.writeObject(IOFile.USER_LOGIN, null);
                     return;
                 default:
                     System.out.println(CONSOLECOLORS.RED + CONSTANT.CHOICE_NOT_AVAI + CONSOLECOLORS.RESET);

@@ -16,13 +16,14 @@ public class UserMenu
     {
         while (true)
         {
-            System.out.println("""
-                    ********************CHÀO MỪNG********************
+            String menuText = """
+                    ********************CHÀO MỪNG%s********************
                     1. Mua vé
                     2. Tìm kiếm phim
                     3. Hiển thị danh sách phim
                     4. Cài đặt thông tin cá nhân
-                    0. Đăng xuất""");
+                    0. Đăng xuất""";
+            System.out.println(String.format(menuText, currentUser == null ? "" : " " + currentUser.getFullName().toUpperCase()));
             System.out.println("Hãy nhập lựa chọn theo danh sách ở trên");
             byte choice = InputMethods.nextByte();
             switch (choice)

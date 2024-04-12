@@ -71,8 +71,15 @@ public class HomePage
     private static void login()
     {
         if (user != null)
-        {
-            userMenu.displayUserMenu(user);
+        {   //Không cần check case status = false, vì nếu bị khóa thì ngay từ đầu user
+            //đã không thể đăng nhập
+            if (user.getRole() == USER_ROLE.USER && user.isStatus())
+            {
+                userMenu.displayUserMenu(user);
+            } else
+            {
+                adminMenu.displayAdminMenu();
+            }
             //JAVA không tồn tại pass by reference mà chỉ có pass by sharing
             //=> Khi user logout thì phải tự set lại user hiện thành null
             //Việc set param của hàm displayUserMenu thành null sẽ không ảnh hưởng
