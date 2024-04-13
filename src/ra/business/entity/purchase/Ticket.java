@@ -120,4 +120,10 @@ public class Ticket implements IPurchasable
     {
         this.timePurchased = timePurchased;
     }
+
+    @Override
+    public int getTotalPrice()
+    {
+        return this.price * this.seatNameList.size();
+    }
 }

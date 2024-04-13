@@ -35,7 +35,8 @@ public class Snack implements IPurchasable, IAdminPaginable
     public void displayData()
     {
         System.out.printf("Mã đồ ăn/ đồ uống: %s | Tên: %s | Giá bán: %s | Phân loại: %s\n",
-                this.snackId, this.snackName, CONSTANT.currencyFormat.format(this.price), this.snackType.getName());
+                this.snackId, this.snackName, CONSTANT.currencyFormat.format(this.price),
+                this.snackType.getName().substring(2));
         System.out.println("────────────────────────────────────────────────────────────────────────────────────");
     }
 
@@ -198,5 +199,11 @@ public class Snack implements IPurchasable, IAdminPaginable
     public void setAmountPurchased(byte amountPurchased)
     {
         this.amountPurchased = amountPurchased;
+    }
+
+    @Override
+    public int getTotalPrice()
+    {
+        return this.price * this.amountPurchased;
     }
 }

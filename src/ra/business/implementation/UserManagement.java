@@ -7,6 +7,7 @@ import ra.business.config.IOFile;
 import ra.business.config.InputMethods;
 import ra.business.design.IUserDesign;
 import ra.business.entity.enumclasses.USER_ROLE;
+import ra.business.entity.user.History;
 import ra.business.entity.user.User;
 
 import java.io.File;
@@ -27,7 +28,7 @@ public class UserManagement implements IUserDesign
             //Nếu file rỗng thì tạo ra một list mới rồi ghi admin vào
             User admin = new User("U00000", "admin", 123456789,
                     BCrypt.hashpw("admin", BCrypt.gensalt(5)), "admin", true, USER_ROLE.ADMIN,
-                    "avatar", LocalDate.now(), LocalDate.now(), "history");
+                    "avatar", LocalDate.now(), LocalDate.now(), null);
             userList.add(admin);
             IOFile.writeToFile(file, userList);
         } else
@@ -38,7 +39,7 @@ public class UserManagement implements IUserDesign
             {
                 User admin = new User("U00000", "admin", 123456789,
                         BCrypt.hashpw("admin", BCrypt.gensalt(5)), "admin", true, USER_ROLE.ADMIN,
-                        "avatar", LocalDate.now(), LocalDate.now(), "history");
+                        "avatar", LocalDate.now(), LocalDate.now(), null);
                 userList.add(admin);
                 IOFile.writeToFile(file, userList);
             }

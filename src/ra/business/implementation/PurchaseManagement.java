@@ -13,6 +13,7 @@ import ra.business.entity.movie.ShowTime;
 import ra.business.entity.purchase.Receipt;
 import ra.business.entity.purchase.Snack;
 import ra.business.entity.purchase.Ticket;
+import ra.business.entity.user.History;
 import ra.business.entity.user.User;
 
 import java.time.LocalDateTime;
@@ -366,10 +367,16 @@ public class PurchaseManagement
         //Gán danh sách mua hàng vào hóa đơn
         customerReceipt.setPurchasedList(customerPurchaseList);
         System.out.println("Dưới đây là thông tin hóa đơn của bạn:");
+        int sumPrice = 0;
         for (IPurchasable merchandise : customerPurchaseList)
         {
             System.out.println(merchandise.showBasicData());
+            sumPrice += merchandise.getTotalPrice();
         }
+        System.out.println(CONSOLECOLORS.YELLOW
+                + "--------------------------------------------------------------------------------------"
+                + CONSOLECOLORS.RESET);
+        System.out.println("Tổng hóa đơn: " + sumPrice);
         System.out.println(CONSOLECOLORS.YELLOW
                 + "--------------------------------------------------------------------------------------"
                 + CONSOLECOLORS.RESET);
@@ -396,9 +403,14 @@ public class PurchaseManagement
                         }
                     }
                 }
+                //Cập nhật thông tin user
+                IOFile.writeToFile(IOFile.USER_PATH, UserManagement.userList);
+                //Cập nhật thông tin lịch chiếu để biết ghế nào đã đặt vé
+                IOFile.writeToFile(IOFile.SHOW_TIME_PATH, showTimeList);
                 System.out.println(CONSOLECOLORS.RED + "Đã hủy đơn hàng (┬┬﹏┬┬)" + CONSOLECOLORS.RESET);
                 return;
             }
+            //Nếu nhập đúng mật khẩu thì tiến hành thanh toán
             if (BCrypt.checkpw(confirmPw, currentuser.getPassword()))
             {
                 //Xóa danh sách các mặt hàng
@@ -407,6 +419,21 @@ public class PurchaseManagement
                 //Set các ghế đã chọn thành Taken (Các ghế đang ở status CHOSEN trong map)
                 List<List<Seat>> seatList = newTicket.getShowTime().getRoom().getSeatList();
                 Map<String, SEAT_STATUS> seatMap = newTicket.getShowTime().getChosenSeatMap();
+                //Đặt thời gian hoàn tất mua vé
+                newTicket.setTimePurchased(LocalDateTime.now());
+                //Lấy ra object history từ User => add vé mới mua vào list ticket để lưu lại
+                //lịch sử mua hàng
+                if (currentuser.getPurchaseHistory() != null)
+                {   //Nếu đã có history => lấy ra list cũ và add lịch sử mới
+                    currentuser.getPurchaseHistory().getTicketPurchased().add(newTicket);
+                } else if (currentuser.getPurchaseHistory() == null)
+                {   //Nếu lần đầu mua vé => Tạo lịch sử mới rồi thêm vào User
+                    History newHistory = new History();
+                    List<Ticket> newListHistory = new ArrayList<>();
+                    newListHistory.add(newTicket);
+                    newHistory.setTicketPurchased(newListHistory);
+                    currentuser.setPurchaseHistory(newHistory);
+                }
                 for (List<Seat> seatRow : seatList)
                 {
                     for (Seat seat : seatRow)
@@ -418,6 +445,11 @@ public class PurchaseManagement
                         }
                     }
                 }
+                //Cập nhật thông tin user
+                IOFile.writeToFile(IOFile.USER_PATH, UserManagement.userList);
+                //Cập nhật thông tin lịch chiếu để biết ghế nào đã đặt vé
+                IOFile.writeToFile(IOFile.SHOW_TIME_PATH, showTimeList);
+                //Thông báo thanh toán thành công
                 System.out.println(CONSOLECOLORS.YELLOW + CONSOLECOLORS.BLACK_BACKGROUND
                         + "   (☞ﾟヮﾟ)☞THANH TOÁN THÀNH CÔNG☜(ﾟヮﾟ☜)    " + CONSOLECOLORS.RESET);
                 System.out.println(CONSOLECOLORS.YELLOW + CONSOLECOLORS.BLACK_BACKGROUND

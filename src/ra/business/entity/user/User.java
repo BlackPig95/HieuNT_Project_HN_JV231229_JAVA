@@ -6,6 +6,7 @@ import ra.business.config.CONSTANT;
 import ra.business.config.InputMethods;
 import ra.business.design.IAdminPaginable;
 import ra.business.entity.enumclasses.USER_ROLE;
+import ra.business.entity.purchase.Ticket;
 
 import java.io.InputStream;
 import java.io.Serializable;
@@ -25,13 +26,13 @@ public class User implements Serializable, IAdminPaginable
     private String avatar = null;
     private LocalDate createdAt = LocalDate.now();
     private LocalDate updatedAt = LocalDate.now();
-    private String historyId = null;
+    private History purchaseHistory = null;
 
     public User()
     {
     }
 
-    public User(String userId, String email, long phone, String password, String fullName, boolean status, USER_ROLE role, String avatar, LocalDate createdAt, LocalDate updatedAt, String historyId)
+    public User(String userId, String email, long phone, String password, String fullName, boolean status, USER_ROLE role, String avatar, LocalDate createdAt, LocalDate updatedAt, History purchaseHistory)
     {
         this.userId = userId;
         this.email = email;
@@ -43,7 +44,7 @@ public class User implements Serializable, IAdminPaginable
         this.avatar = avatar;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.historyId = historyId;
+        this.purchaseHistory = purchaseHistory;
     }
 
     public String getUserId()
@@ -146,14 +147,14 @@ public class User implements Serializable, IAdminPaginable
         this.updatedAt = updatedAt;
     }
 
-    public String getHistoryId()
+    public History getPurchaseHistory()
     {
-        return historyId;
+        return purchaseHistory;
     }
 
-    public void setHistoryId(String historyId)
+    public void setPurchaseHistory(History purchaseHistory)
     {
-        this.historyId = historyId;
+        this.purchaseHistory = purchaseHistory;
     }
 
     public void inputData(List<User> userList, boolean isAdding)
@@ -176,10 +177,21 @@ public class User implements Serializable, IAdminPaginable
     @Override
     public void displayData()
     {
+        StringBuilder history = new StringBuilder();
+        if (this.purchaseHistory != null)
+        {
+            for (Ticket ticketPurchased : this.purchaseHistory.getTicketPurchased())
+            {
+                history.append("Thời gian mua: ").append(ticketPurchased.getTimePurchased()).append(" | ").
+                        append("Lịch chiếu: ").append(ticketPurchased.getShowTime().getShowTimeId());
+                history.append("\n");
+            }
+        }
         System.out.println("────────────────────────────────────────────────────────────────────────────────────");
         System.out.printf("Mã người dùng: %s | Tên người dùng: %s \n", this.userId, this.fullName);
         System.out.printf("Số điện thoại: %s | Email: %s \n", String.format("0%d", this.phone), this.email);
         System.out.printf("Trạng thái: %s \n", this.status ? "Hoạt động" : "Bị khóa");
+        System.out.println("Lịch sử mua hàng: \n" + (!history.isEmpty() ? String.valueOf(history) : "Chưa có"));
         System.out.println("────────────────────────────────────────────────────────────────────────────────────");
     }
 

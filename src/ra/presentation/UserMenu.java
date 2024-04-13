@@ -68,8 +68,8 @@ public class UserMenu
             System.out.print("""
                     ┏────────────────────────────────────────────────────────────┓\s
                     ┃  ======================  CÀI ĐẶT  =======================  ┃\s
-                    ┃  1. Xem thông tin cá                                       ┃\s
-                    ┃  2. Cập nhật thông tin cá                                  ┃\s
+                    ┃  1. Xem thông tin cá nhân                                  ┃\s
+                    ┃  2. Cập nhật thông tin cá nhân                             ┃\s
                     ┃  3. Đổi mật khẩu                                           ┃\s
                     ┃  9. Thoát khỏi trang                                       ┃\s
                     ┃  0. Quay lại                                               ┃  \s
