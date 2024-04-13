@@ -11,4 +11,8 @@ public interface IUserDesign extends CRUF
     void updateUserPhone(User currenUser);
 
     User findItem(User userToSearch);
+
+    void resetPassword();
+
+    String sendOTP();
 }

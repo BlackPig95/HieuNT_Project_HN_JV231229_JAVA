@@ -39,7 +39,8 @@ public class HomePage
                         ┃  =====================  CHÀO MỪNG  ======================  ┃
                         ┃  1. Xem danh sách phim hiện có (Đăng nhập để mua vé)       ┃
                         ┃  2. Đăng ký                                                ┃
-                        ┃  3. Đăng nhập                                              ┃
+                        ┃  3. Đăng nhập                                              ┃   
+                        ┃  4. Quên mật khẩu?                                         ┃
                         ┃  0. Thoát khỏi trang                                       ┃
                         ┗────────────────────────────────────────────────────────────┛ 	               
                           """);
@@ -57,6 +58,9 @@ public class HomePage
                         break;
                     case 3:
                         login();
+                        break;
+                    case 4:
+                        AdminMenu.userManagement.resetPassword();
                         break;
                     case 0:
                         return;

@@ -1,10 +1,7 @@
 package ra.business.implementation;
 
 import org.mindrot.jbcrypt.BCrypt;
-import ra.business.config.AdminPagination;
-import ra.business.config.CONSOLECOLORS;
-import ra.business.config.IOFile;
-import ra.business.config.InputMethods;
+import ra.business.config.*;
 import ra.business.design.IUserDesign;
 import ra.business.entity.enumclasses.USER_ROLE;
 import ra.business.entity.user.History;
@@ -14,6 +11,7 @@ import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class UserManagement implements IUserDesign
 {
@@ -151,5 +149,111 @@ public class UserManagement implements IUserDesign
     public void updateUserPhone(User currenUser)
     {
         currenUser.inputUserPhone(userList, false);
+    }
+
+    @Override
+    public void resetPassword()
+    {
+        while (true)
+        {
+            System.out.println("Chọn 1 để nhận OTP đặt lại mật khẩu qua email. Chọn 2 để nhận qua số điện thoại");
+            System.out.println(CONSOLECOLORS.BLUE + "Nhập '0' để quay lại trang chủ" + CONSOLECOLORS.RESET);
+            byte choice = InputMethods.nextByte();
+            switch (choice)
+            {
+                case 1:
+                    if (resetViaEmail())
+                    {
+                        System.out.println(CONSOLECOLORS.GREEN + "Đặt lại mật khẩu thành công" + CONSOLECOLORS.RESET);
+                        return;
+                    }
+                    break;
+                case 2:
+                    if (resetViaPhone())
+                    {
+                        System.out.println(CONSOLECOLORS.GREEN + "Đặt lại mật khẩu thành công" + CONSOLECOLORS.RESET);
+                        return;
+                    }
+                    break;
+                case 0:
+                    return;
+                default:
+                    System.out.println(CONSOLECOLORS.RED + CONSTANT.CHOICE_NOT_AVAI + CONSOLECOLORS.RESET);
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public String sendOTP()
+    {
+        Random random = new Random();
+        return String.format("%04d", random.nextInt(1000, 10000));
+    }
+
+    private boolean resetViaEmail()
+    {
+        System.out.println("Nhập email mà bạn đã dùng để đăng ký tài khoản");
+        String inputEmail = InputMethods.nextLine();
+        User currentUser = userList.stream().filter(u -> u.getEmail().equals(inputEmail)).findFirst().orElse(null);
+        if (currentUser == null)
+        {
+            System.out.println(CONSOLECOLORS.RED + "Email không đúng, hãy kiểm tra lại" + CONSOLECOLORS.RESET);
+            return false;
+        }
+        String otpSentTocustomer = sendOTP();
+        System.out.println(CONSOLECOLORS.GREEN + "Mã OTP đặt lại mật khẩu của bạn là: " + otpSentTocustomer + CONSOLECOLORS.RESET);
+        System.out.println(CONSOLECOLORS.BLUE + "Hãy kiểm tra và nhập vào mã OTP trong email được gửi đến bạn" + CONSOLECOLORS.RESET);
+        String inputOTP = InputMethods.nextLine();
+        while (true)
+        {
+            if (inputOTP.equals("esc"))
+            {
+                return false;
+            }
+            if (otpSentTocustomer.equals(inputOTP))
+            {
+                System.out.println(CONSOLECOLORS.GREEN + "Xác nhận thành công. Hãy đặt lại mật khẩu của bạn" + CONSOLECOLORS.RESET);
+                currentUser.confirmUserPassword();
+                return true;
+            } else
+            {
+                System.out.println(CONSOLECOLORS.RED + "Mã OTP không đúng, vui lòng thử lại. Hoặc nhập 'esc' để quay lại" + CONSOLECOLORS.RESET);
+                inputOTP = InputMethods.nextLine();
+            }
+        }
+    }
+
+    private boolean resetViaPhone()
+    {
+        System.out.println("Nhập số điện thoại mà bạn đã dùng để đăng ký tài khoản");
+        long inputPhone = InputMethods.nextLong();
+        User currentUser = userList.stream().filter(u -> u.getPhone() == inputPhone).findFirst().orElse(null);
+        if (currentUser == null)
+        {
+            System.out.println(CONSOLECOLORS.RED + "Số điện thoại không đúng, hãy kiểm tra lại" + CONSOLECOLORS.RESET);
+            return false;
+        }
+        String otpSentTocustomer = sendOTP();
+        System.out.println(CONSOLECOLORS.GREEN + "Mã OTP đặt lại mật khẩu của bạn là: " + otpSentTocustomer + CONSOLECOLORS.RESET);
+        System.out.println(CONSOLECOLORS.BLUE + "Hãy kiểm tra và nhập vào mã OTP trong tin nhắn được gửi đến bạn" + CONSOLECOLORS.RESET);
+        String inputOTP = InputMethods.nextLine();
+        while (true)
+        {
+            if (inputOTP.equals("esc"))
+            {
+                return false;
+            }
+            if (otpSentTocustomer.equals(inputOTP))
+            {
+                System.out.println(CONSOLECOLORS.GREEN + "Xác nhận thành công. Hãy đặt lại mật khẩu của bạn" + CONSOLECOLORS.RESET);
+                currentUser.confirmUserPassword();
+                return true;
+            } else
+            {
+                System.out.println(CONSOLECOLORS.RED + "Mã OTP không đúng, vui lòng thử lại. Hoặc nhập 'esc' để quay lại" + CONSOLECOLORS.RESET);
+                inputOTP = InputMethods.nextLine();
+            }
+        }
     }
 }
