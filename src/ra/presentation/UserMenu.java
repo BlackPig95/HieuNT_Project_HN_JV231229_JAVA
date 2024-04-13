@@ -4,6 +4,8 @@ import ra.business.config.CONSOLECOLORS;
 import ra.business.config.CONSTANT;
 import ra.business.config.IOFile;
 import ra.business.config.InputMethods;
+import ra.business.entity.purchase.Ticket;
+import ra.business.entity.user.History;
 import ra.business.entity.user.User;
 import ra.business.implementation.PurchaseManagement;
 
@@ -22,6 +24,7 @@ public class UserMenu
                     ┃ 2. Tìm kiếm phim                                                ┃ 
                     ┃ 3. Hiển thị danh sách phim                                      ┃
                     ┃ 4. Cài đặt thông tin cá nhân                                    ┃
+                    ┃ 5. Xem lịch sử mua vé                                           ┃  
                     ┃ 9. Thoát khỏi trang                                             ┃
                     ┃ 0. Đăng xuất                                                    ┃
                     ┗─────────────────────────────────────────────────────────────────┛
@@ -44,6 +47,26 @@ public class UserMenu
                     break;
                 case 4:
                     displayPersonalInfoMenu(currentUser);
+                    break;
+                case 5:
+                    History purchaseHistory = currentUser.getPurchaseHistory();
+                    StringBuilder history = new StringBuilder();
+                    if (purchaseHistory != null)
+                    {
+                        for (Ticket ticketPurchased : purchaseHistory.getTicketPurchased())
+                        {
+                            history.append("Thời gian mua: ").append(ticketPurchased.getTimePurchased().format(CONSTANT.DTF)).append(" | ").
+                                    append("Phim: ").append(ticketPurchased.getMovie().getMovieName()).append(" | ");
+                            history.append("Phòng chiếu: ").append(ticketPurchased.getShowTime().getRoom().getRoomId()).append(" | ");
+                            history.append("Số ghế: ");
+                            //Duyệt qua loop để gán số ghế ngồi
+                            ticketPurchased.getSeatNameList().forEach(s ->
+                                    history.append(s).append(" | "));
+                            history.append("\n");
+                        }
+                    }
+                    System.out.println("Lịch sử mua vé của bạn:");
+                    System.out.println(!history.isEmpty() ? String.valueOf(history) : "Chưa có");
                     break;
                 case 9:
                     System.exit(0);

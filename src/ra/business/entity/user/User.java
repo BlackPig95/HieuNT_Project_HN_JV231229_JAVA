@@ -182,8 +182,15 @@ public class User implements Serializable, IAdminPaginable
         {
             for (Ticket ticketPurchased : this.purchaseHistory.getTicketPurchased())
             {
-                history.append("Thời gian mua: ").append(ticketPurchased.getTimePurchased()).append(" | ").
-                        append("Lịch chiếu: ").append(ticketPurchased.getShowTime().getShowTimeId());
+                history.append("Lịch chiếu: ").append(ticketPurchased.getShowTime().getShowTimeId()).append(" | ");
+                history.append("Thời gian mua: ").append(ticketPurchased.getTimePurchased().format(CONSTANT.DTF)).append(" | ");
+                history.append("\n");
+                history.append("Phim: ").append(ticketPurchased.getMovie().getMovieName()).append(" | ");
+                history.append("Phòng chiếu: ").append(ticketPurchased.getShowTime().getRoom().getRoomId()).append(" | ");
+                history.append("Số ghế: ");
+                //Duyệt qua loop để gán số ghế ngồi
+                ticketPurchased.getSeatNameList().forEach(s ->
+                        history.append(s).append(" | "));
                 history.append("\n");
             }
         }
