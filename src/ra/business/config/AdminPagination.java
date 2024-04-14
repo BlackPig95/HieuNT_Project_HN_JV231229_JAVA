@@ -8,7 +8,7 @@ public class AdminPagination
 {
     public static <T extends IAdminPaginable> void pagination(List<T> list)
     {
-        int itemsPerPage = 2;
+        int itemsPerPage = 3;
         int numberOfPages = (int) Math.ceil((double) list.size() / itemsPerPage);
         displayPagination(0, numberOfPages, itemsPerPage, list);
         while (true)
