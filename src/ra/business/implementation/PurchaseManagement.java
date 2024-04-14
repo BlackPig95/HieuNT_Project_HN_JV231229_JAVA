@@ -382,6 +382,10 @@ public class PurchaseManagement
                 + CONSOLECOLORS.RESET);
         while (true)
         {
+            System.out.println(CONSOLECOLORS.BLUE + "Nhập tên ngân hàng" + CONSOLECOLORS.RESET);
+            InputMethods.nextLine();
+            System.out.println(CONSOLECOLORS.BLUE + "Nhập số thẻ của bạn" + CONSOLECOLORS.RESET);
+            InputMethods.nextLine();
             System.out.println(CONSOLECOLORS.BLUE_BOLD + "Xác nhận thanh toán bằng cách nhập mật khẩu của bạn" + CONSOLECOLORS.RESET);
             System.out.println(CONSOLECOLORS.RED + "Nhập chính xác 'esc' nếu bạn muốn hủy thanh toán" + CONSOLECOLORS.RESET);
             String confirmPw = InputMethods.nextLine();
