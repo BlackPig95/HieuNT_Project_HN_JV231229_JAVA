@@ -88,7 +88,7 @@ public class HomePage
                 adminMenu.displayAdminMenu(user);
             }
             //JAVA không tồn tại pass by reference mà chỉ có pass by sharing
-            //=> Khi user logout thì phải tự set lại user hiện thành null
+            //=> Khi user logout thì phải tự set lại user hiện tại thành null
             //Việc set param của hàm displayUserMenu thành null sẽ không ảnh hưởng
             //tới user hiện tại
             return;
